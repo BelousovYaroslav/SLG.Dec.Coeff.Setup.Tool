@@ -63,11 +63,12 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         initComponents();
         
         m_lstRequestedParams = new LinkedList();
-        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DEC_COEFF_CALIBRATION_USAGE, ( byte) 0) );
+        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0) );
         m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DEC_COEFF, ( byte) 0));
         for( int i=0; i < theApp.LIST_PARAMS_LEN; i++) {
-            m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DEC_COEFF_CALIB_T, ( byte) i));
-            m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DEC_COEFF_CALIB_DC, ( byte) i));
+            m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_T, ( byte) i));
+            m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_DC_L, ( byte) i));
+            m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_DC_H, ( byte) i));
         }
         m_itRequestedParams = m_lstRequestedParams.iterator();
 
@@ -90,7 +91,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 
                 
                 boolean bAllDefined = true;
-                for( int i = 0; i < theApp.LIST_PARAMS_LEN; bAllDefined = bAllDefined & theApp.m_bParamTDefined[i] & theApp.m_bParamDcDefined[i++]);
+                for( int i = 0; i < theApp.LIST_PARAMS_LEN; bAllDefined = bAllDefined & theApp.m_bParamTDefined[i] & (theApp.m_nParamDcDefined[i++] == 0x03));
                 
                 
                 btnUseIt.setEnabled( theApp.m_bConnected && bAllDefined);
@@ -1173,7 +1174,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
 
     private void btnResetCalibDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetCalibDataActionPerformed
         byte aBytes[] = new byte[4];
-        aBytes[0] = SLG_ConstantsCmd.SLG_MC_COMMAND_ACT_RESET_PHSH_CALIB;
+        aBytes[0] = SLG_ConstantsCmd.SLG_CMD_ACT_RESET_DC_CALIB;
         aBytes[1] = 0;
         aBytes[2] = 0;
         aBytes[3] = 0;
