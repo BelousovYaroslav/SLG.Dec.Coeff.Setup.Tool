@@ -38,16 +38,20 @@ public class SLG_DCST_App {
     public boolean m_bParamTDefined[];
     public int m_DevT[];
     public int m_nParamDcDefined[];
-    public double m_DevDc[];
+    public int m_nDevDc[];
     
     public String m_strVersion;
             
     public int m_nDecCoeffCalibrationUsage;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_ON = 0;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_OFF = 1;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_CALIB = 0;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_RECALC = 1;
     public static final int DEC_COEFF_CALIBRATION_USAGE_UNKNOWN = 2;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_OFF = 255;
     
-    public double m_dblCurrentDecCoeff;
+    public static final int SLG_REGIME_UNKNOWN = 3;
+    public int m_nDeviceRegime = SLG_REGIME_UNKNOWN;
+    
+    public int m_nCurrentDecCoeff;
     
     public double m_dblTD1;
     
@@ -64,11 +68,11 @@ public class SLG_DCST_App {
         m_bParamTDefined = new boolean[ LIST_PARAMS_LEN];
         m_DevT = new int[ LIST_PARAMS_LEN];
         m_nParamDcDefined = new int[ LIST_PARAMS_LEN];
-        m_DevDc = new double[ LIST_PARAMS_LEN];
+        m_nDevDc = new int[ LIST_PARAMS_LEN];
         
         for( int i = 0; i < LIST_PARAMS_LEN; i++) {
             m_bParamTDefined[i] = false; m_nParamDcDefined[i] = 0;
-            m_DevT[i] = 0xFFFF; m_DevDc[i] = 1.00;
+            m_DevT[i] = 0xFFFF; m_nDevDc[i] = 0xFFFF;
         }
         
         //SETTINGS
@@ -80,7 +84,7 @@ public class SLG_DCST_App {
             m_pSingleInstanceSocketServer = new ServerSocket( m_pSettings.GetSingleInstanceSocketServerPort());
         }
         catch( Exception ex) {
-            MessageBoxError( "Уже есть запущенный экземпляр утилиты редактирования параметров калибровки фазового сдвига.\nПоищите на других \"экранах\".", "Утилита редактирования калибровки фазового сдвига");
+            MessageBoxError( "Уже есть запущенный экземпляр утилиты редактирования параметров калибровки коэффициента вычета.\nПоищите на других \"экранах\".", "Утилита редактирования калибровки коэффициента вычета");
             logger.error( "Не смогли открыть сокет для проверки запуска только одной копии программы! Программа уже запущена?", ex);
             m_pSingleInstanceSocketServer = null;
             return;

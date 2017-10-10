@@ -6,6 +6,7 @@
 package flavt.slg.dec.coeff.setup.tool.communication;
 
 import flavt.slg.dec.coeff.setup.tool.main.SLG_DCST_App;
+import flavt.slg.lib.constants.SLG_Constants;
 import flavt.slg.lib.constants.SLG_ConstantsParams;
 
 /**
@@ -93,6 +94,12 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
             
             //logger.info(    String.format( "0x%02X", bts[4]));            
             
+            //ANALYZE DEVICE REGIME
+            if( ( bts[10] & 0x20) == 1)
+                theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_ASYNC;
+            else
+                theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_SYNC;
+            
             //ANALYZE ADD.PARAM DESCRIPTOR
             switch( bts[4]) {
                 case SLG_ConstantsParams.SLG_PARAM_VERSION:
@@ -104,8 +111,8 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                     //logger.debug( "Получена версия ПО от прибора: " + theApp.m_strVersion);
                 break;
                     
-                case SLG_ConstantsParams.SLG_PARAM_PH_SH_CALIB_T:
-                    logger.info(    String.format( "<< SLG_PARAM_PH_SH_CALIB_T: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                case SLG_ConstantsParams.SLG_PARAM_DC_CALIB_T:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_CALIB_T: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
                                         bts[4],  bts[5],  bts[6],  bts[7],
                                         bts[8],  bts[9],  bts[10], bts[11]));
@@ -144,60 +151,101 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                     */
                 break;
                     
-                case SLG_ConstantsParams.SLG_PARAM_PH_SH_CALIB_PH_SH:
-                    logger.info(    String.format( "<< SLG_PARAM_PH_SH_CALIB_PH_SH: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                case SLG_ConstantsParams.SLG_PARAM_DC_CALIB_DC_L:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_CALIB_DC_L: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                                        bts[0],  bts[1],  bts[2],  bts[3],
+                                        bts[4],
+                                        bts[5],  bts[6],
+                                        bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
+                    
+                    if( bts[5] >= 0 && bts[5] < theApp.LIST_PARAMS_LEN) {
+                        theApp.m_nDevDc[ bts[5]] =  ( theApp.m_nDevDc[ bts[5]] & 0xFF00) + ( bts[6] & 0xFF);
+                        theApp.m_nParamDcDefined[ bts[5]] |= 0x01;
+                    }
+                    
+                    logger.info( "" + theApp.m_nDevDc[0] +
+                                " " + theApp.m_nDevDc[1] +
+                                " " + theApp.m_nDevDc[2] +
+                                " " + theApp.m_nDevDc[3] +
+                                " " + theApp.m_nDevDc[4] +
+                                " " + theApp.m_nDevDc[5] +
+                                " " + theApp.m_nDevDc[6] +
+                                " " + theApp.m_nDevDc[7] +
+                                " " + theApp.m_nDevDc[8] +
+                                " " + theApp.m_nDevDc[9] +
+                                " " + theApp.m_nDevDc[10]);
+                    
+                    /*
+                    logger.info( "" + theApp.m_nParamDcDefined[0] +
+                                " " + theApp.m_nParamDcDefined[1] +
+                                " " + theApp.m_nParamDcDefined[2] +
+                                " " + theApp.m_nParamDcDefined[3] +
+                                " " + theApp.m_nParamDcDefined[4] +
+                                " " + theApp.m_nParamDcDefined[5] +
+                                " " + theApp.m_nParamDcDefined[6] +
+                                " " + theApp.m_nParamDcDefined[7] +
+                                " " + theApp.m_nParamDcDefined[8] +
+                                " " + theApp.m_nParamDcDefined[9] +
+                                " " + theApp.m_nParamDcDefined[10]);
+                    */
+                break;
+                    
+                case SLG_ConstantsParams.SLG_PARAM_DC_CALIB_DC_H:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_CALIB_DC_H: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
                                         bts[4],  bts[5],  bts[6],  bts[7],
                                         bts[8],  bts[9],  bts[10], bts[11]));
                     
                     if( bts[5] >= 0 && bts[5] < theApp.LIST_PARAMS_LEN) {
-                        theApp.m_DevPhsh[ bts[5]] = bts[6] & 0xFF;
-                        theApp.m_bParamPhshDefined[ bts[5]] = true;
+                        theApp.m_nDevDc[ bts[5]] =  ( theApp.m_nDevDc[ bts[5]] & 0x00FF) + ( bts[6] << 8);
+                        theApp.m_nParamDcDefined[ bts[5]] |= 0x02;
                     }
                     
-                    logger.info( "" + theApp.m_DevPhsh[0] +
-                                " " + theApp.m_DevPhsh[1] +
-                                " " + theApp.m_DevPhsh[2] +
-                                " " + theApp.m_DevPhsh[3] +
-                                " " + theApp.m_DevPhsh[4] +
-                                " " + theApp.m_DevPhsh[5] +
-                                " " + theApp.m_DevPhsh[6] +
-                                " " + theApp.m_DevPhsh[7] +
-                                " " + theApp.m_DevPhsh[8] +
-                                " " + theApp.m_DevPhsh[9] +
-                                " " + theApp.m_DevPhsh[10]);
+                    logger.info( "" + theApp.m_nDevDc[0] +
+                                " " + theApp.m_nDevDc[1] +
+                                " " + theApp.m_nDevDc[2] +
+                                " " + theApp.m_nDevDc[3] +
+                                " " + theApp.m_nDevDc[4] +
+                                " " + theApp.m_nDevDc[5] +
+                                " " + theApp.m_nDevDc[6] +
+                                " " + theApp.m_nDevDc[7] +
+                                " " + theApp.m_nDevDc[8] +
+                                " " + theApp.m_nDevDc[9] +
+                                " " + theApp.m_nDevDc[10]);
                     
                     /*
-                    logger.info( "" + theApp.m_bParamDefined[0] +
-                                " " + theApp.m_bParamDefined[1] +
-                                " " + theApp.m_bParamDefined[2] +
-                                " " + theApp.m_bParamDefined[3] +
-                                " " + theApp.m_bParamDefined[4] +
-                                " " + theApp.m_bParamDefined[5] +
-                                " " + theApp.m_bParamDefined[6] +
-                                " " + theApp.m_bParamDefined[7] +
-                                " " + theApp.m_bParamDefined[8] +
-                                " " + theApp.m_bParamDefined[9] +
-                                " " + theApp.m_bParamDefined[10]);
+                    logger.info( "" + theApp.m_nParamDcDefined[0] +
+                                " " + theApp.m_nParamDcDefined[1] +
+                                " " + theApp.m_nParamDcDefined[2] +
+                                " " + theApp.m_nParamDcDefined[3] +
+                                " " + theApp.m_nParamDcDefined[4] +
+                                " " + theApp.m_nParamDcDefined[5] +
+                                " " + theApp.m_nParamDcDefined[6] +
+                                " " + theApp.m_nParamDcDefined[7] +
+                                " " + theApp.m_nParamDcDefined[8] +
+                                " " + theApp.m_nParamDcDefined[9] +
+                                " " + theApp.m_nParamDcDefined[10]);
                     */
                 break;
-                    
-                case SLG_ConstantsParams.SLG_PARAM_PH_SH_USAGE:
-                    logger.info(    String.format( "<< SLG_PARAM_PH_SH_USAGE: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                        
+                case SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_CALIB_USAGE: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
-                                        bts[4],  bts[5],  bts[6],  bts[7],
-                                        bts[8],  bts[9],  bts[10], bts[11]));
+                                        bts[4],
+                                        bts[5],  bts[6],
+                                        bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
                     
-                    if( bts[5] == 0x00) theApp.m_nPhShUsage = SLG_DCST_App.PHASE_SHIFT_USAGE_ON;
-                    else                theApp.m_nPhShUsage = SLG_DCST_App.PHASE_SHIFT_USAGE_OFF;
+                    if( bts[5] == 0x00)      theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB;
+                    else if( bts[5] == 0x01) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_RECALC;
+                    else                     theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_OFF;
                 break;
                     
-                case SLG_ConstantsParams.SLG_PARAM_PH_SH_CURRENT_VAL:
-                    logger.info(    String.format( "<< SLG_PARAM_PH_SH_CURRENT_VAL: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                case SLG_ConstantsParams.SLG_PARAM_DEC_COEFF:
+                    logger.info(    String.format( "<< SLG_PARAM_DEC_COEFF: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
                                         bts[4],  bts[5],  bts[6],  bts[7],
                                         bts[8],  bts[9],  bts[10], bts[11]));
-                    theApp.m_nCurrentPhaseShift = bts[5] & 0xFF;
+                    theApp.m_nCurrentDecCoeff = bts[5] & 0xFF + bts[6] & 0xFF00;
                 break;
                     
                 case SLG_ConstantsParams.SLG_PARAM_UTD1:
