@@ -235,8 +235,9 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                                         bts[5],  bts[6],
                                         bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
                     
-                    if( bts[5] == 0x00)      theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB;
-                    else if( bts[5] == 0x01) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_RECALC;
+                         if( bts[5] == 0x00) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB;
+                    else if( bts[5] == 0x01) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_MANUAL;
+                    else if( bts[5] == 0x02) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_RECALC;
                     else                     theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_OFF;
                 break;
                     

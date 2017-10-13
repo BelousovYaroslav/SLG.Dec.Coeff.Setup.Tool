@@ -44,8 +44,9 @@ public class SLG_DCST_App {
             
     public int m_nDecCoeffCalibrationUsage;
     public static final int DEC_COEFF_CALIBRATION_USAGE_CALIB = 0;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_RECALC = 1;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_UNKNOWN = 2;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_MANUAL = 1;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_RECALC = 2;
+    public static final int DEC_COEFF_CALIBRATION_USAGE_UNKNOWN = 3;
     public static final int DEC_COEFF_CALIBRATION_USAGE_OFF = 255;
     
     public static final int SLG_REGIME_UNKNOWN = 3;

@@ -96,9 +96,9 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 for( int i = 0; i < theApp.LIST_PARAMS_LEN; bAllDefined = bAllDefined & theApp.m_bParamTDefined[i] & (theApp.m_nParamDcDefined[i++] == 0x03));
                 
                 
-                btnUseCalib.setEnabled( theApp.m_bConnected && bAllDefined);
-                btnUseRecalc.setEnabled( theApp.m_bConnected && bAllDefined);
-                btnUseOff.setEnabled( theApp.m_bConnected && bAllDefined);
+                btnDecCoeffRecalcCalib.setEnabled( theApp.m_bConnected && bAllDefined);
+                btnDecCoeffRecalcRecalc.setEnabled( theApp.m_bConnected && bAllDefined);
+                btnDecCoeffRecalcOff.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnResetCalibData.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnSaveData.setEnabled( theApp.m_bConnected && bAllDefined);
                 
@@ -159,6 +159,8 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                     switch( theApp.m_nDecCoeffCalibrationUsage) {
                         case SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB:
                             lblPhaseShiftUsageValue.setText( "Калибровка"); break;
+                        case SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_MANUAL:
+                            lblPhaseShiftUsageValue.setText( "Ручной"); break;
                         case SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_RECALC:
                             lblPhaseShiftUsageValue.setText( "Перевычисление"); break;
                         case SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_OFF:
@@ -361,8 +363,8 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         edtPS11Edit = new javax.swing.JTextField();
         btnPS11Set = new javax.swing.JButton();
         lblPhaseShiftUsageTitle = new javax.swing.JLabel();
-        btnUseOff = new javax.swing.JButton();
-        btnUseRecalc = new javax.swing.JButton();
+        btnDecCoeffRecalcOff = new javax.swing.JButton();
+        btnDecCoeffRecalcRecalc = new javax.swing.JButton();
         btnResetCalibData = new javax.swing.JButton();
         btnDisconnect = new javax.swing.JButton();
         lblConnectionStateValue = new javax.swing.JLabel();
@@ -372,11 +374,12 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         lblCurrentPhaseShiftValue = new javax.swing.JLabel();
         lblCurrentTD1Title = new javax.swing.JLabel();
         lblCurrentTD1Value = new javax.swing.JLabel();
-        btnUseCalib = new javax.swing.JButton();
+        btnDecCoeffRecalcCalib = new javax.swing.JButton();
+        btnDecCoeffRecalcManual = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("МЛГ3Б. Утилита для редактирования калибровки коэффициента вычета  (С) ФЛАВТ   2017.10.06 15:00");
-        setMinimumSize(new java.awt.Dimension(680, 820));
+        setMinimumSize(new java.awt.Dimension(680, 850));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -408,7 +411,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         lblTemperature.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblTemperature.setText("<html><b><u>Температура</b></u></html>");
         getContentPane().add(lblTemperature);
-        lblTemperature.setBounds(20, 330, 320, 30);
+        lblTemperature.setBounds(20, 370, 320, 30);
 
         btnT1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT1Get.setText("req");
@@ -418,17 +421,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT1Get);
-        btnT1Get.setBounds(20, 370, 60, 30);
+        btnT1Get.setBounds(20, 400, 60, 30);
 
         edtT1Show.setEditable(false);
         edtT1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT1Show.setEnabled(false);
         getContentPane().add(edtT1Show);
-        edtT1Show.setBounds(90, 370, 60, 30);
+        edtT1Show.setBounds(90, 400, 60, 30);
 
         edtT1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT1Edit);
-        edtT1Edit.setBounds(160, 370, 110, 30);
+        edtT1Edit.setBounds(160, 400, 110, 30);
 
         btnT1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT1Set.setText("set");
@@ -438,7 +441,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT1Set);
-        btnT1Set.setBounds(280, 370, 60, 30);
+        btnT1Set.setBounds(280, 400, 60, 30);
 
         btnT2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT2Get.setText("req");
@@ -448,17 +451,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT2Get);
-        btnT2Get.setBounds(20, 400, 60, 30);
+        btnT2Get.setBounds(20, 430, 60, 30);
 
         edtT2Show.setEditable(false);
         edtT2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT2Show.setEnabled(false);
         getContentPane().add(edtT2Show);
-        edtT2Show.setBounds(90, 400, 60, 30);
+        edtT2Show.setBounds(90, 430, 60, 30);
 
         edtT2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT2Edit);
-        edtT2Edit.setBounds(160, 400, 110, 30);
+        edtT2Edit.setBounds(160, 430, 110, 30);
 
         btnT2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT2Set.setText("set");
@@ -468,7 +471,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT2Set);
-        btnT2Set.setBounds(280, 400, 60, 30);
+        btnT2Set.setBounds(280, 430, 60, 30);
 
         btnT3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT3Get.setText("req");
@@ -478,17 +481,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT3Get);
-        btnT3Get.setBounds(20, 430, 60, 30);
+        btnT3Get.setBounds(20, 460, 60, 30);
 
         edtT3Show.setEditable(false);
         edtT3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT3Show.setEnabled(false);
         getContentPane().add(edtT3Show);
-        edtT3Show.setBounds(90, 430, 60, 30);
+        edtT3Show.setBounds(90, 460, 60, 30);
 
         edtT3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT3Edit);
-        edtT3Edit.setBounds(160, 430, 110, 30);
+        edtT3Edit.setBounds(160, 460, 110, 30);
 
         btnT3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT3Set.setText("set");
@@ -498,7 +501,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT3Set);
-        btnT3Set.setBounds(280, 430, 60, 30);
+        btnT3Set.setBounds(280, 460, 60, 30);
 
         btnT4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT4Get.setText("req");
@@ -508,17 +511,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT4Get);
-        btnT4Get.setBounds(20, 460, 60, 30);
+        btnT4Get.setBounds(20, 490, 60, 30);
 
         edtT4Show.setEditable(false);
         edtT4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT4Show.setEnabled(false);
         getContentPane().add(edtT4Show);
-        edtT4Show.setBounds(90, 460, 60, 30);
+        edtT4Show.setBounds(90, 490, 60, 30);
 
         edtT4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT4Edit);
-        edtT4Edit.setBounds(160, 460, 110, 30);
+        edtT4Edit.setBounds(160, 490, 110, 30);
 
         btnT4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT4Set.setText("set");
@@ -528,7 +531,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT4Set);
-        btnT4Set.setBounds(280, 460, 60, 30);
+        btnT4Set.setBounds(280, 490, 60, 30);
 
         btnT5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT5Get.setText("req");
@@ -538,17 +541,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT5Get);
-        btnT5Get.setBounds(20, 490, 60, 30);
+        btnT5Get.setBounds(20, 520, 60, 30);
 
         edtT5Show.setEditable(false);
         edtT5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT5Show.setEnabled(false);
         getContentPane().add(edtT5Show);
-        edtT5Show.setBounds(90, 490, 60, 30);
+        edtT5Show.setBounds(90, 520, 60, 30);
 
         edtT5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT5Edit);
-        edtT5Edit.setBounds(160, 490, 110, 30);
+        edtT5Edit.setBounds(160, 520, 110, 30);
 
         btnT5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT5Set.setText("set");
@@ -558,7 +561,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT5Set);
-        btnT5Set.setBounds(280, 490, 60, 30);
+        btnT5Set.setBounds(280, 520, 60, 30);
 
         btnT6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT6Get.setText("req");
@@ -568,17 +571,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT6Get);
-        btnT6Get.setBounds(20, 520, 60, 30);
+        btnT6Get.setBounds(20, 550, 60, 30);
 
         edtT6Show.setEditable(false);
         edtT6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT6Show.setEnabled(false);
         getContentPane().add(edtT6Show);
-        edtT6Show.setBounds(90, 520, 60, 30);
+        edtT6Show.setBounds(90, 550, 60, 30);
 
         edtT6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT6Edit);
-        edtT6Edit.setBounds(160, 520, 110, 30);
+        edtT6Edit.setBounds(160, 550, 110, 30);
 
         btnT6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT6Set.setText("set");
@@ -588,7 +591,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT6Set);
-        btnT6Set.setBounds(280, 520, 60, 30);
+        btnT6Set.setBounds(280, 550, 60, 30);
 
         btnT7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT7Get.setText("req");
@@ -598,17 +601,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT7Get);
-        btnT7Get.setBounds(20, 550, 60, 30);
+        btnT7Get.setBounds(20, 580, 60, 30);
 
         edtT7Show.setEditable(false);
         edtT7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT7Show.setEnabled(false);
         getContentPane().add(edtT7Show);
-        edtT7Show.setBounds(90, 550, 60, 30);
+        edtT7Show.setBounds(90, 580, 60, 30);
 
         edtT7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT7Edit);
-        edtT7Edit.setBounds(160, 550, 110, 30);
+        edtT7Edit.setBounds(160, 580, 110, 30);
 
         btnT7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT7Set.setText("set");
@@ -618,7 +621,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT7Set);
-        btnT7Set.setBounds(280, 550, 60, 30);
+        btnT7Set.setBounds(280, 580, 60, 30);
 
         btnT8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT8Get.setText("req");
@@ -628,17 +631,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT8Get);
-        btnT8Get.setBounds(20, 580, 60, 30);
+        btnT8Get.setBounds(20, 610, 60, 30);
 
         edtT8Show.setEditable(false);
         edtT8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT8Show.setEnabled(false);
         getContentPane().add(edtT8Show);
-        edtT8Show.setBounds(90, 580, 60, 30);
+        edtT8Show.setBounds(90, 610, 60, 30);
 
         edtT8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT8Edit);
-        edtT8Edit.setBounds(160, 580, 110, 30);
+        edtT8Edit.setBounds(160, 610, 110, 30);
 
         btnT8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT8Set.setText("set");
@@ -648,7 +651,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT8Set);
-        btnT8Set.setBounds(280, 580, 60, 30);
+        btnT8Set.setBounds(280, 610, 60, 30);
 
         btnT9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT9Get.setText("req");
@@ -658,17 +661,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT9Get);
-        btnT9Get.setBounds(20, 610, 60, 30);
+        btnT9Get.setBounds(20, 640, 60, 30);
 
         edtT9Show.setEditable(false);
         edtT9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT9Show.setEnabled(false);
         getContentPane().add(edtT9Show);
-        edtT9Show.setBounds(90, 610, 60, 30);
+        edtT9Show.setBounds(90, 640, 60, 30);
 
         edtT9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT9Edit);
-        edtT9Edit.setBounds(160, 610, 110, 30);
+        edtT9Edit.setBounds(160, 640, 110, 30);
 
         btnT9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT9Set.setText("set");
@@ -678,7 +681,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT9Set);
-        btnT9Set.setBounds(280, 610, 60, 30);
+        btnT9Set.setBounds(280, 640, 60, 30);
 
         btnT10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT10Get.setText("req");
@@ -688,17 +691,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT10Get);
-        btnT10Get.setBounds(20, 640, 60, 30);
+        btnT10Get.setBounds(20, 670, 60, 30);
 
         edtT10Show.setEditable(false);
         edtT10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT10Show.setEnabled(false);
         getContentPane().add(edtT10Show);
-        edtT10Show.setBounds(90, 640, 60, 30);
+        edtT10Show.setBounds(90, 670, 60, 30);
 
         edtT10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT10Edit);
-        edtT10Edit.setBounds(160, 640, 110, 30);
+        edtT10Edit.setBounds(160, 670, 110, 30);
 
         btnT10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT10Set.setText("set");
@@ -708,7 +711,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT10Set);
-        btnT10Set.setBounds(280, 640, 60, 30);
+        btnT10Set.setBounds(280, 670, 60, 30);
 
         btnT11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT11Get.setText("req");
@@ -718,17 +721,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT11Get);
-        btnT11Get.setBounds(20, 670, 60, 30);
+        btnT11Get.setBounds(20, 700, 60, 30);
 
         edtT11Show.setEditable(false);
         edtT11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtT11Show.setEnabled(false);
         getContentPane().add(edtT11Show);
-        edtT11Show.setBounds(90, 670, 60, 30);
+        edtT11Show.setBounds(90, 700, 60, 30);
 
         edtT11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtT11Edit);
-        edtT11Edit.setBounds(160, 670, 110, 30);
+        edtT11Edit.setBounds(160, 700, 110, 30);
 
         btnT11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnT11Set.setText("set");
@@ -738,12 +741,12 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnT11Set);
-        btnT11Set.setBounds(280, 670, 60, 30);
+        btnT11Set.setBounds(280, 700, 60, 30);
 
         lblPhaseShift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblPhaseShift.setText("<html><b><u>Коэффициент вычета</b></u></html>");
         getContentPane().add(lblPhaseShift);
-        lblPhaseShift.setBounds(350, 330, 320, 30);
+        lblPhaseShift.setBounds(350, 370, 320, 30);
 
         btnPS1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS1Get.setText("req");
@@ -753,17 +756,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS1Get);
-        btnPS1Get.setBounds(350, 370, 60, 30);
+        btnPS1Get.setBounds(350, 400, 60, 30);
 
         edtPS1Show.setEditable(false);
         edtPS1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS1Show.setEnabled(false);
         getContentPane().add(edtPS1Show);
-        edtPS1Show.setBounds(420, 370, 80, 30);
+        edtPS1Show.setBounds(420, 400, 80, 30);
 
         edtPS1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS1Edit);
-        edtPS1Edit.setBounds(510, 370, 90, 30);
+        edtPS1Edit.setBounds(510, 400, 90, 30);
 
         btnPS1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS1Set.setText("set");
@@ -773,7 +776,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS1Set);
-        btnPS1Set.setBounds(610, 370, 60, 30);
+        btnPS1Set.setBounds(610, 400, 60, 30);
 
         btnPS2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS2Get.setText("req");
@@ -783,17 +786,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS2Get);
-        btnPS2Get.setBounds(350, 400, 60, 30);
+        btnPS2Get.setBounds(350, 430, 60, 30);
 
         edtPS2Show.setEditable(false);
         edtPS2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS2Show.setEnabled(false);
         getContentPane().add(edtPS2Show);
-        edtPS2Show.setBounds(420, 400, 80, 30);
+        edtPS2Show.setBounds(420, 430, 80, 30);
 
         edtPS2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS2Edit);
-        edtPS2Edit.setBounds(510, 400, 90, 30);
+        edtPS2Edit.setBounds(510, 430, 90, 30);
 
         btnPS2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS2Set.setText("set");
@@ -803,7 +806,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS2Set);
-        btnPS2Set.setBounds(610, 400, 60, 30);
+        btnPS2Set.setBounds(610, 430, 60, 30);
 
         btnPS3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS3Get.setText("req");
@@ -813,17 +816,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS3Get);
-        btnPS3Get.setBounds(350, 430, 60, 30);
+        btnPS3Get.setBounds(350, 460, 60, 30);
 
         edtPS3Show.setEditable(false);
         edtPS3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS3Show.setEnabled(false);
         getContentPane().add(edtPS3Show);
-        edtPS3Show.setBounds(420, 430, 80, 30);
+        edtPS3Show.setBounds(420, 460, 80, 30);
 
         edtPS3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS3Edit);
-        edtPS3Edit.setBounds(510, 430, 90, 30);
+        edtPS3Edit.setBounds(510, 460, 90, 30);
 
         btnPS3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS3Set.setText("set");
@@ -833,7 +836,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS3Set);
-        btnPS3Set.setBounds(610, 430, 60, 30);
+        btnPS3Set.setBounds(610, 460, 60, 30);
 
         btnPS4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS4Get.setText("req");
@@ -843,17 +846,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS4Get);
-        btnPS4Get.setBounds(350, 460, 60, 30);
+        btnPS4Get.setBounds(350, 490, 60, 30);
 
         edtPS4Show.setEditable(false);
         edtPS4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS4Show.setEnabled(false);
         getContentPane().add(edtPS4Show);
-        edtPS4Show.setBounds(420, 460, 80, 30);
+        edtPS4Show.setBounds(420, 490, 80, 30);
 
         edtPS4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS4Edit);
-        edtPS4Edit.setBounds(510, 460, 90, 30);
+        edtPS4Edit.setBounds(510, 490, 90, 30);
 
         btnPS4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS4Set.setText("set");
@@ -863,7 +866,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS4Set);
-        btnPS4Set.setBounds(610, 460, 60, 30);
+        btnPS4Set.setBounds(610, 490, 60, 30);
 
         btnPS5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS5Get.setText("req");
@@ -873,17 +876,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS5Get);
-        btnPS5Get.setBounds(350, 490, 60, 30);
+        btnPS5Get.setBounds(350, 520, 60, 30);
 
         edtPS5Show.setEditable(false);
         edtPS5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS5Show.setEnabled(false);
         getContentPane().add(edtPS5Show);
-        edtPS5Show.setBounds(420, 490, 80, 30);
+        edtPS5Show.setBounds(420, 520, 80, 30);
 
         edtPS5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS5Edit);
-        edtPS5Edit.setBounds(510, 490, 90, 30);
+        edtPS5Edit.setBounds(510, 520, 90, 30);
 
         btnPS5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS5Set.setText("set");
@@ -893,7 +896,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS5Set);
-        btnPS5Set.setBounds(610, 490, 60, 30);
+        btnPS5Set.setBounds(610, 520, 60, 30);
 
         btnPS6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS6Get.setText("req");
@@ -903,17 +906,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS6Get);
-        btnPS6Get.setBounds(350, 520, 60, 30);
+        btnPS6Get.setBounds(350, 550, 60, 30);
 
         edtPS6Show.setEditable(false);
         edtPS6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS6Show.setEnabled(false);
         getContentPane().add(edtPS6Show);
-        edtPS6Show.setBounds(420, 520, 80, 30);
+        edtPS6Show.setBounds(420, 550, 80, 30);
 
         edtPS6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS6Edit);
-        edtPS6Edit.setBounds(510, 520, 90, 30);
+        edtPS6Edit.setBounds(510, 550, 90, 30);
 
         btnPS6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS6Set.setText("set");
@@ -923,7 +926,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS6Set);
-        btnPS6Set.setBounds(610, 520, 60, 30);
+        btnPS6Set.setBounds(610, 550, 60, 30);
 
         btnPS7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS7Get.setText("req");
@@ -933,17 +936,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS7Get);
-        btnPS7Get.setBounds(350, 550, 60, 30);
+        btnPS7Get.setBounds(350, 580, 60, 30);
 
         edtPS7Show.setEditable(false);
         edtPS7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS7Show.setEnabled(false);
         getContentPane().add(edtPS7Show);
-        edtPS7Show.setBounds(420, 550, 80, 30);
+        edtPS7Show.setBounds(420, 580, 80, 30);
 
         edtPS7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS7Edit);
-        edtPS7Edit.setBounds(510, 550, 90, 30);
+        edtPS7Edit.setBounds(510, 580, 90, 30);
 
         btnPS7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS7Set.setText("set");
@@ -953,7 +956,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS7Set);
-        btnPS7Set.setBounds(610, 550, 60, 30);
+        btnPS7Set.setBounds(610, 580, 60, 30);
 
         btnPS8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS8Get.setText("req");
@@ -963,17 +966,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS8Get);
-        btnPS8Get.setBounds(350, 580, 60, 30);
+        btnPS8Get.setBounds(350, 610, 60, 30);
 
         edtPS8Show.setEditable(false);
         edtPS8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS8Show.setEnabled(false);
         getContentPane().add(edtPS8Show);
-        edtPS8Show.setBounds(420, 580, 80, 30);
+        edtPS8Show.setBounds(420, 610, 80, 30);
 
         edtPS8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS8Edit);
-        edtPS8Edit.setBounds(510, 580, 90, 30);
+        edtPS8Edit.setBounds(510, 610, 90, 30);
 
         btnPS8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS8Set.setText("set");
@@ -983,7 +986,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS8Set);
-        btnPS8Set.setBounds(610, 580, 60, 30);
+        btnPS8Set.setBounds(610, 610, 60, 30);
 
         btnPS9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS9Get.setText("req");
@@ -993,17 +996,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS9Get);
-        btnPS9Get.setBounds(350, 610, 60, 30);
+        btnPS9Get.setBounds(350, 640, 60, 30);
 
         edtPS9Show.setEditable(false);
         edtPS9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS9Show.setEnabled(false);
         getContentPane().add(edtPS9Show);
-        edtPS9Show.setBounds(420, 610, 80, 30);
+        edtPS9Show.setBounds(420, 640, 80, 30);
 
         edtPS9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS9Edit);
-        edtPS9Edit.setBounds(510, 610, 90, 30);
+        edtPS9Edit.setBounds(510, 640, 90, 30);
 
         btnPS9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS9Set.setText("set");
@@ -1013,7 +1016,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS9Set);
-        btnPS9Set.setBounds(610, 610, 60, 30);
+        btnPS9Set.setBounds(610, 640, 60, 30);
 
         btnPS10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS10Get.setText("req");
@@ -1023,17 +1026,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS10Get);
-        btnPS10Get.setBounds(350, 640, 60, 30);
+        btnPS10Get.setBounds(350, 670, 60, 30);
 
         edtPS10Show.setEditable(false);
         edtPS10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS10Show.setEnabled(false);
         getContentPane().add(edtPS10Show);
-        edtPS10Show.setBounds(420, 640, 80, 30);
+        edtPS10Show.setBounds(420, 670, 80, 30);
 
         edtPS10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS10Edit);
-        edtPS10Edit.setBounds(510, 640, 90, 30);
+        edtPS10Edit.setBounds(510, 670, 90, 30);
 
         btnPS10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS10Set.setText("set");
@@ -1043,7 +1046,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS10Set);
-        btnPS10Set.setBounds(610, 640, 60, 30);
+        btnPS10Set.setBounds(610, 670, 60, 30);
 
         btnPS11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS11Get.setText("req");
@@ -1053,17 +1056,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS11Get);
-        btnPS11Get.setBounds(350, 670, 60, 30);
+        btnPS11Get.setBounds(350, 700, 60, 30);
 
         edtPS11Show.setEditable(false);
         edtPS11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         edtPS11Show.setEnabled(false);
         getContentPane().add(edtPS11Show);
-        edtPS11Show.setBounds(420, 670, 80, 30);
+        edtPS11Show.setBounds(420, 700, 80, 30);
 
         edtPS11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(edtPS11Edit);
-        edtPS11Edit.setBounds(510, 670, 90, 30);
+        edtPS11Edit.setBounds(510, 700, 90, 30);
 
         btnPS11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
         btnPS11Set.setText("set");
@@ -1073,29 +1076,29 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnPS11Set);
-        btnPS11Set.setBounds(610, 670, 60, 30);
+        btnPS11Set.setBounds(610, 700, 60, 30);
 
         lblPhaseShiftUsageTitle.setText("Перевычисление коэффициента вычета: ");
         getContentPane().add(lblPhaseShiftUsageTitle);
         lblPhaseShiftUsageTitle.setBounds(20, 90, 400, 30);
 
-        btnUseOff.setText("Выключить");
-        btnUseOff.addActionListener(new java.awt.event.ActionListener() {
+        btnDecCoeffRecalcOff.setText("Выключить");
+        btnDecCoeffRecalcOff.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUseOffActionPerformed(evt);
+                btnDecCoeffRecalcOffActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUseOff);
-        btnUseOff.setBounds(20, 210, 650, 30);
+        getContentPane().add(btnDecCoeffRecalcOff);
+        btnDecCoeffRecalcOff.setBounds(20, 250, 650, 30);
 
-        btnUseRecalc.setText("Перевычисление");
-        btnUseRecalc.addActionListener(new java.awt.event.ActionListener() {
+        btnDecCoeffRecalcRecalc.setText("Перевычисление");
+        btnDecCoeffRecalcRecalc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUseRecalcActionPerformed(evt);
+                btnDecCoeffRecalcRecalcActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUseRecalc);
-        btnUseRecalc.setBounds(20, 170, 650, 30);
+        getContentPane().add(btnDecCoeffRecalcRecalc);
+        btnDecCoeffRecalcRecalc.setBounds(20, 210, 650, 30);
 
         btnResetCalibData.setText("Сбросить данные калибровки");
         btnResetCalibData.addActionListener(new java.awt.event.ActionListener() {
@@ -1104,7 +1107,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnResetCalibData);
-        btnResetCalibData.setBounds(20, 710, 650, 30);
+        btnResetCalibData.setBounds(20, 740, 650, 30);
 
         btnDisconnect.setText("Разъединить");
         btnDisconnect.addActionListener(new java.awt.event.ActionListener() {
@@ -1133,36 +1136,45 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btnSaveData);
-        btnSaveData.setBounds(20, 750, 650, 30);
+        btnSaveData.setBounds(20, 780, 650, 30);
 
         lblCurrentPhaseShiftTitle.setText("Текущее (последнее выставленное) значение Квычета: ");
         getContentPane().add(lblCurrentPhaseShiftTitle);
-        lblCurrentPhaseShiftTitle.setBounds(20, 250, 520, 30);
+        lblCurrentPhaseShiftTitle.setBounds(20, 290, 520, 30);
 
         lblCurrentPhaseShiftValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCurrentPhaseShiftValue.setText("???");
         lblCurrentPhaseShiftValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(lblCurrentPhaseShiftValue);
-        lblCurrentPhaseShiftValue.setBounds(540, 250, 130, 30);
+        lblCurrentPhaseShiftValue.setBounds(540, 290, 130, 30);
 
         lblCurrentTD1Title.setText("Текущая температура (TD1):");
         getContentPane().add(lblCurrentTD1Title);
-        lblCurrentTD1Title.setBounds(20, 290, 520, 30);
+        lblCurrentTD1Title.setBounds(20, 330, 520, 30);
 
         lblCurrentTD1Value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCurrentTD1Value.setText("???");
         lblCurrentTD1Value.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(lblCurrentTD1Value);
-        lblCurrentTD1Value.setBounds(540, 290, 130, 30);
+        lblCurrentTD1Value.setBounds(540, 330, 130, 30);
 
-        btnUseCalib.setText("Калибровка");
-        btnUseCalib.addActionListener(new java.awt.event.ActionListener() {
+        btnDecCoeffRecalcCalib.setText("Калибровка");
+        btnDecCoeffRecalcCalib.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUseCalibActionPerformed(evt);
+                btnDecCoeffRecalcCalibActionPerformed(evt);
             }
         });
-        getContentPane().add(btnUseCalib);
-        btnUseCalib.setBounds(20, 130, 650, 30);
+        getContentPane().add(btnDecCoeffRecalcCalib);
+        btnDecCoeffRecalcCalib.setBounds(20, 130, 650, 30);
+
+        btnDecCoeffRecalcManual.setText("Ручной режим");
+        btnDecCoeffRecalcManual.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcManualActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btnDecCoeffRecalcManual);
+        btnDecCoeffRecalcManual.setBounds(20, 170, 650, 30);
 
         pack();
         setLocationRelativeTo(null);
@@ -1236,15 +1248,15 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnResetCalibDataActionPerformed
 
-    private void btnUseRecalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseRecalcActionPerformed
-        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x01, ( byte) 0);
+    private void btnDecCoeffRecalcRecalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalcActionPerformed
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x02, ( byte) 0);
         theApp.m_bParamsChanged = true;
-    }//GEN-LAST:event_btnUseRecalcActionPerformed
+    }//GEN-LAST:event_btnDecCoeffRecalcRecalcActionPerformed
 
-    private void btnUseOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseOffActionPerformed
+    private void btnDecCoeffRecalcOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcOffActionPerformed
         SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0xFF, ( byte) 0);
         theApp.m_bParamsChanged = true;
-    }//GEN-LAST:event_btnUseOffActionPerformed
+    }//GEN-LAST:event_btnDecCoeffRecalcOffActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
@@ -2039,10 +2051,15 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveDataActionPerformed
 
-    private void btnUseCalibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUseCalibActionPerformed
+    private void btnDecCoeffRecalcCalibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalibActionPerformed
         SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x00, ( byte) 0);
         theApp.m_bParamsChanged = true;
-    }//GEN-LAST:event_btnUseCalibActionPerformed
+    }//GEN-LAST:event_btnDecCoeffRecalcCalibActionPerformed
+
+    private void btnDecCoeffRecalcManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcManualActionPerformed
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x01, ( byte) 0);
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnDecCoeffRecalcManualActionPerformed
 
 
     private class PortReader implements SerialPortEventListener {
@@ -2073,6 +2090,10 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnConnect;
+    private javax.swing.JButton btnDecCoeffRecalcCalib;
+    private javax.swing.JButton btnDecCoeffRecalcManual;
+    private javax.swing.JButton btnDecCoeffRecalcOff;
+    private javax.swing.JButton btnDecCoeffRecalcRecalc;
     public javax.swing.JButton btnDisconnect;
     public javax.swing.JButton btnPS10Get;
     public javax.swing.JButton btnPS10Set;
@@ -2120,9 +2141,6 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     public javax.swing.JButton btnT8Set;
     public javax.swing.JButton btnT9Get;
     public javax.swing.JButton btnT9Set;
-    private javax.swing.JButton btnUseCalib;
-    private javax.swing.JButton btnUseOff;
-    private javax.swing.JButton btnUseRecalc;
     private javax.swing.JTextField edtComPortValue;
     private javax.swing.JTextField edtPS10Edit;
     private javax.swing.JTextField edtPS10Show;
