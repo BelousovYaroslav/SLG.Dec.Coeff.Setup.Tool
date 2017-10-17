@@ -98,6 +98,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 
                 btnDecCoeffRecalcCalib.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcRecalc.setEnabled( theApp.m_bConnected && bAllDefined);
+                btnDecCoeffRecalcManual.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcOff.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnResetCalibData.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnSaveData.setEnabled( theApp.m_bConnected && bAllDefined);
