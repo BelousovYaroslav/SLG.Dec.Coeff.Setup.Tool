@@ -95,7 +95,7 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
             //logger.info(    String.format( "0x%02X", bts[4]));            
             
             //ANALYZE DEVICE REGIME
-            if( ( bts[10] & 0x20) == 1)
+            if( ( bts[10] & 0x20) > 0)
                 theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_ASYNC;
             else
                 theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_SYNC;
