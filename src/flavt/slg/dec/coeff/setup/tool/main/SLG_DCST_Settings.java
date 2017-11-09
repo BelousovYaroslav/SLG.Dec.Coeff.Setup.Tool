@@ -129,7 +129,7 @@ public class SLG_DCST_Settings {
             OutputFormat format = OutputFormat.createPrettyPrint();
             
             //TODO
-            String strSettingsXmlFile = System.getenv( "SLG_ROOT") + "/etc/settings.phase.shift.setup.tool.rw.xml";
+            String strSettingsXmlFile = System.getenv( "SLG_ROOT") + "/etc/settings.dec.coeff.setup.tool.rw.xml";
             
             XMLWriter writer = new XMLWriter( new FileWriter( strSettingsXmlFile), format);
             
