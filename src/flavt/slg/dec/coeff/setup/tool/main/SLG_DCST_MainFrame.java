@@ -99,7 +99,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 btnDecCoeffRecalcCalib.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcRecalc.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcManual.setEnabled( theApp.m_bConnected && bAllDefined);
-                btnDecCoeffRecalcOff.setEnabled( theApp.m_bConnected && bAllDefined);
+                
                 btnResetCalibData.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnSaveData.setEnabled( theApp.m_bConnected && bAllDefined);
                 
@@ -156,6 +156,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                     lblConnectionStateValue.setText( "  Нет соединения");
                 }
                     
+                /*
                 if( theApp.m_bConnected) {
                     switch( theApp.m_nDecCoeffCalibrationUsage) {
                         case SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB:
@@ -177,6 +178,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 else {
                     lblPhaseShiftUsageValue.setText( "XXX");
                 }
+                */
                 
                 if( theApp.m_bConnected) {
                     if( theApp.m_nDeviceRegime == SLG_Constants.SLG_REGIME_SYNC)
@@ -272,20 +274,64 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         lblPort = new javax.swing.JLabel();
         edtComPortValue = new javax.swing.JTextField();
         btnConnect = new javax.swing.JButton();
+        btnDisconnect = new javax.swing.JButton();
         lblConnectionStateTitle = new javax.swing.JLabel();
+        lblConnectionStateValue = new javax.swing.JLabel();
+        pnlCurrentParams = new javax.swing.JPanel();
+        lblCurrentPhaseShiftTitle = new javax.swing.JLabel();
+        lblCurrentTD1Title = new javax.swing.JLabel();
+        lblCurrentPhaseShiftValue = new javax.swing.JLabel();
+        lblCurrentTD1Value = new javax.swing.JLabel();
+        pnlStartParameters = new javax.swing.JPanel();
+        btnDecCoeffRecalcRecalc1 = new javax.swing.JButton();
+        btnDecCoeffRecalcRecalc2 = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        edtT1Show1 = new javax.swing.JTextField();
+        edtT1Edit1 = new javax.swing.JTextField();
+        btnT1Set1 = new javax.swing.JButton();
+        btnDecCoeffRecalcRecalc3 = new javax.swing.JButton();
+        pnlInProcess = new javax.swing.JPanel();
+        btnDecCoeffRecalcRecalc = new javax.swing.JButton();
+        btnDecCoeffRecalcCalib = new javax.swing.JButton();
+        btnDecCoeffRecalcCalib1 = new javax.swing.JButton();
+        btnDecCoeffRecalcManual = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        btnDecCoeffRecalcRecalc4 = new javax.swing.JButton();
+        pnlCalibrationTable = new javax.swing.JPanel();
         lblTemperature = new javax.swing.JLabel();
+        lblPhaseShift = new javax.swing.JLabel();
         btnT1Get = new javax.swing.JButton();
         edtT1Show = new javax.swing.JTextField();
         edtT1Edit = new javax.swing.JTextField();
         btnT1Set = new javax.swing.JButton();
+        btnPS1Get = new javax.swing.JButton();
+        edtPS1Show = new javax.swing.JTextField();
+        edtPS1Edit = new javax.swing.JTextField();
+        btnPS1Set = new javax.swing.JButton();
         btnT2Get = new javax.swing.JButton();
         edtT2Show = new javax.swing.JTextField();
         edtT2Edit = new javax.swing.JTextField();
         btnT2Set = new javax.swing.JButton();
+        btnPS2Get = new javax.swing.JButton();
+        edtPS2Show = new javax.swing.JTextField();
+        edtPS2Edit = new javax.swing.JTextField();
+        btnPS2Set = new javax.swing.JButton();
         btnT3Get = new javax.swing.JButton();
         edtT3Show = new javax.swing.JTextField();
         edtT3Edit = new javax.swing.JTextField();
         btnT3Set = new javax.swing.JButton();
+        btnPS3Get = new javax.swing.JButton();
+        edtPS3Show = new javax.swing.JTextField();
+        edtPS3Edit = new javax.swing.JTextField();
+        btnPS3Set = new javax.swing.JButton();
         btnT4Get = new javax.swing.JButton();
         edtT4Show = new javax.swing.JTextField();
         edtT4Edit = new javax.swing.JTextField();
@@ -294,6 +340,14 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         edtT5Show = new javax.swing.JTextField();
         edtT5Edit = new javax.swing.JTextField();
         btnT5Set = new javax.swing.JButton();
+        btnPS4Get = new javax.swing.JButton();
+        edtPS4Show = new javax.swing.JTextField();
+        edtPS4Edit = new javax.swing.JTextField();
+        btnPS4Set = new javax.swing.JButton();
+        btnPS5Get = new javax.swing.JButton();
+        edtPS5Show = new javax.swing.JTextField();
+        edtPS5Edit = new javax.swing.JTextField();
+        btnPS5Set = new javax.swing.JButton();
         btnT6Get = new javax.swing.JButton();
         edtT6Show = new javax.swing.JTextField();
         edtT6Edit = new javax.swing.JTextField();
@@ -318,27 +372,6 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         edtT11Show = new javax.swing.JTextField();
         edtT11Edit = new javax.swing.JTextField();
         btnT11Set = new javax.swing.JButton();
-        lblPhaseShift = new javax.swing.JLabel();
-        btnPS1Get = new javax.swing.JButton();
-        edtPS1Show = new javax.swing.JTextField();
-        edtPS1Edit = new javax.swing.JTextField();
-        btnPS1Set = new javax.swing.JButton();
-        btnPS2Get = new javax.swing.JButton();
-        edtPS2Show = new javax.swing.JTextField();
-        edtPS2Edit = new javax.swing.JTextField();
-        btnPS2Set = new javax.swing.JButton();
-        btnPS3Get = new javax.swing.JButton();
-        edtPS3Show = new javax.swing.JTextField();
-        edtPS3Edit = new javax.swing.JTextField();
-        btnPS3Set = new javax.swing.JButton();
-        btnPS4Get = new javax.swing.JButton();
-        edtPS4Show = new javax.swing.JTextField();
-        edtPS4Edit = new javax.swing.JTextField();
-        btnPS4Set = new javax.swing.JButton();
-        btnPS5Get = new javax.swing.JButton();
-        edtPS5Show = new javax.swing.JTextField();
-        edtPS5Edit = new javax.swing.JTextField();
-        btnPS5Set = new javax.swing.JButton();
         btnPS6Get = new javax.swing.JButton();
         edtPS6Show = new javax.swing.JTextField();
         edtPS6Edit = new javax.swing.JTextField();
@@ -363,24 +396,12 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         edtPS11Show = new javax.swing.JTextField();
         edtPS11Edit = new javax.swing.JTextField();
         btnPS11Set = new javax.swing.JButton();
-        lblPhaseShiftUsageTitle = new javax.swing.JLabel();
-        btnDecCoeffRecalcOff = new javax.swing.JButton();
-        btnDecCoeffRecalcRecalc = new javax.swing.JButton();
         btnResetCalibData = new javax.swing.JButton();
-        btnDisconnect = new javax.swing.JButton();
-        lblConnectionStateValue = new javax.swing.JLabel();
-        lblPhaseShiftUsageValue = new javax.swing.JLabel();
         btnSaveData = new javax.swing.JButton();
-        lblCurrentPhaseShiftTitle = new javax.swing.JLabel();
-        lblCurrentPhaseShiftValue = new javax.swing.JLabel();
-        lblCurrentTD1Title = new javax.swing.JLabel();
-        lblCurrentTD1Value = new javax.swing.JLabel();
-        btnDecCoeffRecalcCalib = new javax.swing.JButton();
-        btnDecCoeffRecalcManual = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("МЛГ3Б. Утилита для редактирования калибровки коэффициента вычета  (С) ФЛАВТ   2017.10.06 15:00");
-        setMinimumSize(new java.awt.Dimension(680, 850));
+        setTitle("МЛГ3Б. Утилита для редактирования калибровки коэффициента вычета  (С) ФЛАВТ   2017.11.20 16:45");
+        setMinimumSize(new java.awt.Dimension(690, 1000));
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -405,711 +426,6 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         getContentPane().add(btnConnect);
         btnConnect.setBounds(400, 10, 130, 30);
 
-        lblConnectionStateTitle.setText("Состояние связи:");
-        getContentPane().add(lblConnectionStateTitle);
-        lblConnectionStateTitle.setBounds(20, 50, 130, 30);
-
-        lblTemperature.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblTemperature.setText("<html><b><u>Температура</b></u></html>");
-        getContentPane().add(lblTemperature);
-        lblTemperature.setBounds(20, 370, 320, 30);
-
-        btnT1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT1Get.setText("req");
-        btnT1Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT1GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT1Get);
-        btnT1Get.setBounds(20, 400, 60, 30);
-
-        edtT1Show.setEditable(false);
-        edtT1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT1Show.setEnabled(false);
-        getContentPane().add(edtT1Show);
-        edtT1Show.setBounds(90, 400, 60, 30);
-
-        edtT1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT1Edit);
-        edtT1Edit.setBounds(160, 400, 110, 30);
-
-        btnT1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT1Set.setText("set");
-        btnT1Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT1SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT1Set);
-        btnT1Set.setBounds(280, 400, 60, 30);
-
-        btnT2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT2Get.setText("req");
-        btnT2Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT2GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT2Get);
-        btnT2Get.setBounds(20, 430, 60, 30);
-
-        edtT2Show.setEditable(false);
-        edtT2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT2Show.setEnabled(false);
-        getContentPane().add(edtT2Show);
-        edtT2Show.setBounds(90, 430, 60, 30);
-
-        edtT2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT2Edit);
-        edtT2Edit.setBounds(160, 430, 110, 30);
-
-        btnT2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT2Set.setText("set");
-        btnT2Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT2SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT2Set);
-        btnT2Set.setBounds(280, 430, 60, 30);
-
-        btnT3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT3Get.setText("req");
-        btnT3Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT3GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT3Get);
-        btnT3Get.setBounds(20, 460, 60, 30);
-
-        edtT3Show.setEditable(false);
-        edtT3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT3Show.setEnabled(false);
-        getContentPane().add(edtT3Show);
-        edtT3Show.setBounds(90, 460, 60, 30);
-
-        edtT3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT3Edit);
-        edtT3Edit.setBounds(160, 460, 110, 30);
-
-        btnT3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT3Set.setText("set");
-        btnT3Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT3SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT3Set);
-        btnT3Set.setBounds(280, 460, 60, 30);
-
-        btnT4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT4Get.setText("req");
-        btnT4Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT4GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT4Get);
-        btnT4Get.setBounds(20, 490, 60, 30);
-
-        edtT4Show.setEditable(false);
-        edtT4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT4Show.setEnabled(false);
-        getContentPane().add(edtT4Show);
-        edtT4Show.setBounds(90, 490, 60, 30);
-
-        edtT4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT4Edit);
-        edtT4Edit.setBounds(160, 490, 110, 30);
-
-        btnT4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT4Set.setText("set");
-        btnT4Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT4SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT4Set);
-        btnT4Set.setBounds(280, 490, 60, 30);
-
-        btnT5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT5Get.setText("req");
-        btnT5Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT5GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT5Get);
-        btnT5Get.setBounds(20, 520, 60, 30);
-
-        edtT5Show.setEditable(false);
-        edtT5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT5Show.setEnabled(false);
-        getContentPane().add(edtT5Show);
-        edtT5Show.setBounds(90, 520, 60, 30);
-
-        edtT5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT5Edit);
-        edtT5Edit.setBounds(160, 520, 110, 30);
-
-        btnT5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT5Set.setText("set");
-        btnT5Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT5SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT5Set);
-        btnT5Set.setBounds(280, 520, 60, 30);
-
-        btnT6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT6Get.setText("req");
-        btnT6Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT6GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT6Get);
-        btnT6Get.setBounds(20, 550, 60, 30);
-
-        edtT6Show.setEditable(false);
-        edtT6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT6Show.setEnabled(false);
-        getContentPane().add(edtT6Show);
-        edtT6Show.setBounds(90, 550, 60, 30);
-
-        edtT6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT6Edit);
-        edtT6Edit.setBounds(160, 550, 110, 30);
-
-        btnT6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT6Set.setText("set");
-        btnT6Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT6SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT6Set);
-        btnT6Set.setBounds(280, 550, 60, 30);
-
-        btnT7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT7Get.setText("req");
-        btnT7Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT7GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT7Get);
-        btnT7Get.setBounds(20, 580, 60, 30);
-
-        edtT7Show.setEditable(false);
-        edtT7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT7Show.setEnabled(false);
-        getContentPane().add(edtT7Show);
-        edtT7Show.setBounds(90, 580, 60, 30);
-
-        edtT7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT7Edit);
-        edtT7Edit.setBounds(160, 580, 110, 30);
-
-        btnT7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT7Set.setText("set");
-        btnT7Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT7SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT7Set);
-        btnT7Set.setBounds(280, 580, 60, 30);
-
-        btnT8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT8Get.setText("req");
-        btnT8Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT8GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT8Get);
-        btnT8Get.setBounds(20, 610, 60, 30);
-
-        edtT8Show.setEditable(false);
-        edtT8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT8Show.setEnabled(false);
-        getContentPane().add(edtT8Show);
-        edtT8Show.setBounds(90, 610, 60, 30);
-
-        edtT8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT8Edit);
-        edtT8Edit.setBounds(160, 610, 110, 30);
-
-        btnT8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT8Set.setText("set");
-        btnT8Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT8SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT8Set);
-        btnT8Set.setBounds(280, 610, 60, 30);
-
-        btnT9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT9Get.setText("req");
-        btnT9Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT9GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT9Get);
-        btnT9Get.setBounds(20, 640, 60, 30);
-
-        edtT9Show.setEditable(false);
-        edtT9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT9Show.setEnabled(false);
-        getContentPane().add(edtT9Show);
-        edtT9Show.setBounds(90, 640, 60, 30);
-
-        edtT9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT9Edit);
-        edtT9Edit.setBounds(160, 640, 110, 30);
-
-        btnT9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT9Set.setText("set");
-        btnT9Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT9SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT9Set);
-        btnT9Set.setBounds(280, 640, 60, 30);
-
-        btnT10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT10Get.setText("req");
-        btnT10Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT10GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT10Get);
-        btnT10Get.setBounds(20, 670, 60, 30);
-
-        edtT10Show.setEditable(false);
-        edtT10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT10Show.setEnabled(false);
-        getContentPane().add(edtT10Show);
-        edtT10Show.setBounds(90, 670, 60, 30);
-
-        edtT10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT10Edit);
-        edtT10Edit.setBounds(160, 670, 110, 30);
-
-        btnT10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT10Set.setText("set");
-        btnT10Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT10SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT10Set);
-        btnT10Set.setBounds(280, 670, 60, 30);
-
-        btnT11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT11Get.setText("req");
-        btnT11Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT11GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT11Get);
-        btnT11Get.setBounds(20, 700, 60, 30);
-
-        edtT11Show.setEditable(false);
-        edtT11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT11Show.setEnabled(false);
-        getContentPane().add(edtT11Show);
-        edtT11Show.setBounds(90, 700, 60, 30);
-
-        edtT11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtT11Edit);
-        edtT11Edit.setBounds(160, 700, 110, 30);
-
-        btnT11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT11Set.setText("set");
-        btnT11Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT11SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnT11Set);
-        btnT11Set.setBounds(280, 700, 60, 30);
-
-        lblPhaseShift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPhaseShift.setText("<html><b><u>Коэффициент вычета</b></u></html>");
-        getContentPane().add(lblPhaseShift);
-        lblPhaseShift.setBounds(350, 370, 320, 30);
-
-        btnPS1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS1Get.setText("req");
-        btnPS1Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS1GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS1Get);
-        btnPS1Get.setBounds(350, 400, 60, 30);
-
-        edtPS1Show.setEditable(false);
-        edtPS1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS1Show.setEnabled(false);
-        getContentPane().add(edtPS1Show);
-        edtPS1Show.setBounds(420, 400, 80, 30);
-
-        edtPS1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS1Edit);
-        edtPS1Edit.setBounds(510, 400, 90, 30);
-
-        btnPS1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS1Set.setText("set");
-        btnPS1Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS1SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS1Set);
-        btnPS1Set.setBounds(610, 400, 60, 30);
-
-        btnPS2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS2Get.setText("req");
-        btnPS2Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS2GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS2Get);
-        btnPS2Get.setBounds(350, 430, 60, 30);
-
-        edtPS2Show.setEditable(false);
-        edtPS2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS2Show.setEnabled(false);
-        getContentPane().add(edtPS2Show);
-        edtPS2Show.setBounds(420, 430, 80, 30);
-
-        edtPS2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS2Edit);
-        edtPS2Edit.setBounds(510, 430, 90, 30);
-
-        btnPS2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS2Set.setText("set");
-        btnPS2Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS2SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS2Set);
-        btnPS2Set.setBounds(610, 430, 60, 30);
-
-        btnPS3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS3Get.setText("req");
-        btnPS3Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS3GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS3Get);
-        btnPS3Get.setBounds(350, 460, 60, 30);
-
-        edtPS3Show.setEditable(false);
-        edtPS3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS3Show.setEnabled(false);
-        getContentPane().add(edtPS3Show);
-        edtPS3Show.setBounds(420, 460, 80, 30);
-
-        edtPS3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS3Edit);
-        edtPS3Edit.setBounds(510, 460, 90, 30);
-
-        btnPS3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS3Set.setText("set");
-        btnPS3Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS3SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS3Set);
-        btnPS3Set.setBounds(610, 460, 60, 30);
-
-        btnPS4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS4Get.setText("req");
-        btnPS4Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS4GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS4Get);
-        btnPS4Get.setBounds(350, 490, 60, 30);
-
-        edtPS4Show.setEditable(false);
-        edtPS4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS4Show.setEnabled(false);
-        getContentPane().add(edtPS4Show);
-        edtPS4Show.setBounds(420, 490, 80, 30);
-
-        edtPS4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS4Edit);
-        edtPS4Edit.setBounds(510, 490, 90, 30);
-
-        btnPS4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS4Set.setText("set");
-        btnPS4Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS4SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS4Set);
-        btnPS4Set.setBounds(610, 490, 60, 30);
-
-        btnPS5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS5Get.setText("req");
-        btnPS5Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS5GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS5Get);
-        btnPS5Get.setBounds(350, 520, 60, 30);
-
-        edtPS5Show.setEditable(false);
-        edtPS5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS5Show.setEnabled(false);
-        getContentPane().add(edtPS5Show);
-        edtPS5Show.setBounds(420, 520, 80, 30);
-
-        edtPS5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS5Edit);
-        edtPS5Edit.setBounds(510, 520, 90, 30);
-
-        btnPS5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS5Set.setText("set");
-        btnPS5Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS5SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS5Set);
-        btnPS5Set.setBounds(610, 520, 60, 30);
-
-        btnPS6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS6Get.setText("req");
-        btnPS6Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS6GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS6Get);
-        btnPS6Get.setBounds(350, 550, 60, 30);
-
-        edtPS6Show.setEditable(false);
-        edtPS6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS6Show.setEnabled(false);
-        getContentPane().add(edtPS6Show);
-        edtPS6Show.setBounds(420, 550, 80, 30);
-
-        edtPS6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS6Edit);
-        edtPS6Edit.setBounds(510, 550, 90, 30);
-
-        btnPS6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS6Set.setText("set");
-        btnPS6Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS6SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS6Set);
-        btnPS6Set.setBounds(610, 550, 60, 30);
-
-        btnPS7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS7Get.setText("req");
-        btnPS7Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS7GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS7Get);
-        btnPS7Get.setBounds(350, 580, 60, 30);
-
-        edtPS7Show.setEditable(false);
-        edtPS7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS7Show.setEnabled(false);
-        getContentPane().add(edtPS7Show);
-        edtPS7Show.setBounds(420, 580, 80, 30);
-
-        edtPS7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS7Edit);
-        edtPS7Edit.setBounds(510, 580, 90, 30);
-
-        btnPS7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS7Set.setText("set");
-        btnPS7Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS7SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS7Set);
-        btnPS7Set.setBounds(610, 580, 60, 30);
-
-        btnPS8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS8Get.setText("req");
-        btnPS8Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS8GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS8Get);
-        btnPS8Get.setBounds(350, 610, 60, 30);
-
-        edtPS8Show.setEditable(false);
-        edtPS8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS8Show.setEnabled(false);
-        getContentPane().add(edtPS8Show);
-        edtPS8Show.setBounds(420, 610, 80, 30);
-
-        edtPS8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS8Edit);
-        edtPS8Edit.setBounds(510, 610, 90, 30);
-
-        btnPS8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS8Set.setText("set");
-        btnPS8Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS8SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS8Set);
-        btnPS8Set.setBounds(610, 610, 60, 30);
-
-        btnPS9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS9Get.setText("req");
-        btnPS9Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS9GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS9Get);
-        btnPS9Get.setBounds(350, 640, 60, 30);
-
-        edtPS9Show.setEditable(false);
-        edtPS9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS9Show.setEnabled(false);
-        getContentPane().add(edtPS9Show);
-        edtPS9Show.setBounds(420, 640, 80, 30);
-
-        edtPS9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS9Edit);
-        edtPS9Edit.setBounds(510, 640, 90, 30);
-
-        btnPS9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS9Set.setText("set");
-        btnPS9Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS9SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS9Set);
-        btnPS9Set.setBounds(610, 640, 60, 30);
-
-        btnPS10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS10Get.setText("req");
-        btnPS10Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS10GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS10Get);
-        btnPS10Get.setBounds(350, 670, 60, 30);
-
-        edtPS10Show.setEditable(false);
-        edtPS10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS10Show.setEnabled(false);
-        getContentPane().add(edtPS10Show);
-        edtPS10Show.setBounds(420, 670, 80, 30);
-
-        edtPS10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS10Edit);
-        edtPS10Edit.setBounds(510, 670, 90, 30);
-
-        btnPS10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS10Set.setText("set");
-        btnPS10Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS10SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS10Set);
-        btnPS10Set.setBounds(610, 670, 60, 30);
-
-        btnPS11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS11Get.setText("req");
-        btnPS11Get.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS11GetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS11Get);
-        btnPS11Get.setBounds(350, 700, 60, 30);
-
-        edtPS11Show.setEditable(false);
-        edtPS11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtPS11Show.setEnabled(false);
-        getContentPane().add(edtPS11Show);
-        edtPS11Show.setBounds(420, 700, 80, 30);
-
-        edtPS11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        getContentPane().add(edtPS11Edit);
-        edtPS11Edit.setBounds(510, 700, 90, 30);
-
-        btnPS11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnPS11Set.setText("set");
-        btnPS11Set.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPS11SetActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnPS11Set);
-        btnPS11Set.setBounds(610, 700, 60, 30);
-
-        lblPhaseShiftUsageTitle.setText("Перевычисление коэффициента вычета: ");
-        getContentPane().add(lblPhaseShiftUsageTitle);
-        lblPhaseShiftUsageTitle.setBounds(20, 90, 400, 30);
-
-        btnDecCoeffRecalcOff.setText("Выключить");
-        btnDecCoeffRecalcOff.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcOffActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnDecCoeffRecalcOff);
-        btnDecCoeffRecalcOff.setBounds(20, 250, 650, 30);
-
-        btnDecCoeffRecalcRecalc.setText("Перевычисление");
-        btnDecCoeffRecalcRecalc.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalcActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnDecCoeffRecalcRecalc);
-        btnDecCoeffRecalcRecalc.setBounds(20, 210, 650, 30);
-
-        btnResetCalibData.setText("Сбросить данные калибровки");
-        btnResetCalibData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnResetCalibDataActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnResetCalibData);
-        btnResetCalibData.setBounds(20, 740, 650, 30);
-
         btnDisconnect.setText("Разъединить");
         btnDisconnect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1119,54 +435,131 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         getContentPane().add(btnDisconnect);
         btnDisconnect.setBounds(540, 10, 130, 30);
 
+        lblConnectionStateTitle.setText("Состояние связи:");
+        getContentPane().add(lblConnectionStateTitle);
+        lblConnectionStateTitle.setBounds(20, 50, 130, 30);
+
         lblConnectionStateValue.setText("jLabel2");
         lblConnectionStateValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         getContentPane().add(lblConnectionStateValue);
         lblConnectionStateValue.setBounds(150, 50, 520, 30);
 
-        lblPhaseShiftUsageValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblPhaseShiftUsageValue.setText("???");
-        lblPhaseShiftUsageValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        getContentPane().add(lblPhaseShiftUsageValue);
-        lblPhaseShiftUsageValue.setBounds(420, 90, 250, 30);
-
-        btnSaveData.setText("Сохранить данные калибровки в память МК");
-        btnSaveData.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSaveDataActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btnSaveData);
-        btnSaveData.setBounds(20, 780, 650, 30);
+        pnlCurrentParams.setBorder(javax.swing.BorderFactory.createTitledBorder("Текущие параметры"));
+        pnlCurrentParams.setLayout(null);
 
         lblCurrentPhaseShiftTitle.setText("Текущее (последнее выставленное) значение Квычета: ");
-        getContentPane().add(lblCurrentPhaseShiftTitle);
-        lblCurrentPhaseShiftTitle.setBounds(20, 290, 520, 30);
+        pnlCurrentParams.add(lblCurrentPhaseShiftTitle);
+        lblCurrentPhaseShiftTitle.setBounds(10, 20, 510, 30);
+
+        lblCurrentTD1Title.setText("Текущая температура (TD1):");
+        pnlCurrentParams.add(lblCurrentTD1Title);
+        lblCurrentTD1Title.setBounds(10, 60, 520, 30);
 
         lblCurrentPhaseShiftValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCurrentPhaseShiftValue.setText("???");
         lblCurrentPhaseShiftValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        getContentPane().add(lblCurrentPhaseShiftValue);
-        lblCurrentPhaseShiftValue.setBounds(540, 290, 130, 30);
-
-        lblCurrentTD1Title.setText("Текущая температура (TD1):");
-        getContentPane().add(lblCurrentTD1Title);
-        lblCurrentTD1Title.setBounds(20, 330, 520, 30);
+        pnlCurrentParams.add(lblCurrentPhaseShiftValue);
+        lblCurrentPhaseShiftValue.setBounds(530, 20, 130, 30);
 
         lblCurrentTD1Value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCurrentTD1Value.setText("???");
         lblCurrentTD1Value.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        getContentPane().add(lblCurrentTD1Value);
-        lblCurrentTD1Value.setBounds(540, 330, 130, 30);
+        pnlCurrentParams.add(lblCurrentTD1Value);
+        lblCurrentTD1Value.setBounds(530, 60, 130, 30);
 
-        btnDecCoeffRecalcCalib.setText("Калибровка");
+        getContentPane().add(pnlCurrentParams);
+        pnlCurrentParams.setBounds(10, 90, 670, 100);
+
+        pnlStartParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("Стартовое значение коэффициента вычета"));
+        pnlStartParameters.setLayout(null);
+
+        btnDecCoeffRecalcRecalc1.setText("Брать из таблицы калибровки");
+        btnDecCoeffRecalcRecalc1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcRecalc1ActionPerformed(evt);
+            }
+        });
+        pnlStartParameters.add(btnDecCoeffRecalcRecalc1);
+        btnDecCoeffRecalcRecalc1.setBounds(50, 60, 260, 30);
+
+        btnDecCoeffRecalcRecalc2.setText("Сохранить");
+        btnDecCoeffRecalcRecalc2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcRecalc2ActionPerformed(evt);
+            }
+        });
+        pnlStartParameters.add(btnDecCoeffRecalcRecalc2);
+        btnDecCoeffRecalcRecalc2.setBounds(530, 60, 130, 30);
+
+        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlStartParameters.add(jLabel7);
+        jLabel7.setBounds(10, 60, 30, 30);
+
+        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlStartParameters.add(jLabel8);
+        jLabel8.setBounds(10, 20, 30, 30);
+
+        edtT1Show1.setEditable(false);
+        edtT1Show1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT1Show1.setEnabled(false);
+        pnlStartParameters.add(edtT1Show1);
+        edtT1Show1.setBounds(320, 20, 100, 30);
+
+        edtT1Edit1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlStartParameters.add(edtT1Edit1);
+        edtT1Edit1.setBounds(430, 20, 100, 30);
+
+        btnT1Set1.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT1Set1.setText("set");
+        btnT1Set1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT1Set1ActionPerformed(evt);
+            }
+        });
+        pnlStartParameters.add(btnT1Set1);
+        btnT1Set1.setBounds(540, 20, 60, 30);
+
+        btnDecCoeffRecalcRecalc3.setText("Стартовое значение");
+        btnDecCoeffRecalcRecalc3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcRecalc3ActionPerformed(evt);
+            }
+        });
+        pnlStartParameters.add(btnDecCoeffRecalcRecalc3);
+        btnDecCoeffRecalcRecalc3.setBounds(50, 20, 260, 30);
+
+        getContentPane().add(pnlStartParameters);
+        pnlStartParameters.setBounds(10, 200, 670, 100);
+
+        pnlInProcess.setBorder(javax.swing.BorderFactory.createTitledBorder("Переопределение коэффициента вычета в процессе работы"));
+        pnlInProcess.setLayout(null);
+
+        btnDecCoeffRecalcRecalc.setText("Перевычисление");
+        btnDecCoeffRecalcRecalc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcRecalcActionPerformed(evt);
+            }
+        });
+        pnlInProcess.add(btnDecCoeffRecalcRecalc);
+        btnDecCoeffRecalcRecalc.setBounds(50, 20, 260, 30);
+
+        btnDecCoeffRecalcCalib.setText("Калибровка сглаженная");
         btnDecCoeffRecalcCalib.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnDecCoeffRecalcCalibActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDecCoeffRecalcCalib);
-        btnDecCoeffRecalcCalib.setBounds(20, 130, 650, 30);
+        pnlInProcess.add(btnDecCoeffRecalcCalib);
+        btnDecCoeffRecalcCalib.setBounds(50, 100, 260, 30);
+
+        btnDecCoeffRecalcCalib1.setText("Калибровка ступенчатая");
+        btnDecCoeffRecalcCalib1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcCalib1ActionPerformed(evt);
+            }
+        });
+        pnlInProcess.add(btnDecCoeffRecalcCalib1);
+        btnDecCoeffRecalcCalib1.setBounds(50, 60, 260, 30);
 
         btnDecCoeffRecalcManual.setText("Ручной режим");
         btnDecCoeffRecalcManual.addActionListener(new java.awt.event.ActionListener() {
@@ -1174,8 +567,744 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 btnDecCoeffRecalcManualActionPerformed(evt);
             }
         });
-        getContentPane().add(btnDecCoeffRecalcManual);
-        btnDecCoeffRecalcManual.setBounds(20, 170, 650, 30);
+        pnlInProcess.add(btnDecCoeffRecalcManual);
+        btnDecCoeffRecalcManual.setBounds(50, 140, 260, 30);
+
+        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(jLabel1);
+        jLabel1.setBounds(10, 140, 30, 30);
+
+        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(jLabel2);
+        jLabel2.setBounds(10, 20, 30, 30);
+
+        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(jLabel3);
+        jLabel3.setBounds(10, 60, 30, 30);
+
+        jLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(jLabel4);
+        jLabel4.setBounds(10, 100, 30, 30);
+
+        jLabel5.setText("1 раз в");
+        pnlInProcess.add(jLabel5);
+        jLabel5.setBounds(440, 70, 60, 30);
+        pnlInProcess.add(jTextField1);
+        jTextField1.setBounds(500, 70, 70, 30);
+
+        jLabel6.setText("Частота переопределения");
+        pnlInProcess.add(jLabel6);
+        jLabel6.setBounds(420, 40, 240, 30);
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "секунд", "тактов" }));
+        pnlInProcess.add(jComboBox1);
+        jComboBox1.setBounds(580, 70, 80, 30);
+
+        btnDecCoeffRecalcRecalc4.setText("Сохранить");
+        btnDecCoeffRecalcRecalc4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcRecalc4ActionPerformed(evt);
+            }
+        });
+        pnlInProcess.add(btnDecCoeffRecalcRecalc4);
+        btnDecCoeffRecalcRecalc4.setBounds(530, 150, 130, 30);
+
+        getContentPane().add(pnlInProcess);
+        pnlInProcess.setBounds(10, 310, 670, 190);
+
+        pnlCalibrationTable.setBorder(javax.swing.BorderFactory.createTitledBorder("Таблица калибровки"));
+        pnlCalibrationTable.setLayout(null);
+
+        lblTemperature.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblTemperature.setText("<html><b><u>Температура</b></u></html>");
+        pnlCalibrationTable.add(lblTemperature);
+        lblTemperature.setBounds(10, 20, 270, 30);
+
+        lblPhaseShift.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblPhaseShift.setText("<html><b><u>Коэффициент вычета</b></u></html>");
+        pnlCalibrationTable.add(lblPhaseShift);
+        lblPhaseShift.setBounds(310, 20, 350, 30);
+
+        btnT1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT1Get.setText("req");
+        btnT1Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT1GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT1Get);
+        btnT1Get.setBounds(10, 50, 60, 30);
+
+        edtT1Show.setEditable(false);
+        edtT1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT1Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT1Show);
+        edtT1Show.setBounds(80, 50, 60, 30);
+
+        edtT1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT1Edit);
+        edtT1Edit.setBounds(150, 50, 60, 30);
+
+        btnT1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT1Set.setText("set");
+        btnT1Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT1SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT1Set);
+        btnT1Set.setBounds(220, 50, 60, 30);
+
+        btnPS1Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS1Get.setText("req");
+        btnPS1Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS1GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS1Get);
+        btnPS1Get.setBounds(310, 50, 60, 30);
+
+        edtPS1Show.setEditable(false);
+        edtPS1Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS1Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS1Show);
+        edtPS1Show.setBounds(380, 50, 100, 30);
+
+        edtPS1Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS1Edit);
+        edtPS1Edit.setBounds(490, 50, 100, 30);
+
+        btnPS1Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS1Set.setText("set");
+        btnPS1Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS1SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS1Set);
+        btnPS1Set.setBounds(600, 50, 60, 30);
+
+        btnT2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT2Get.setText("req");
+        btnT2Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT2GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT2Get);
+        btnT2Get.setBounds(10, 80, 60, 30);
+
+        edtT2Show.setEditable(false);
+        edtT2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT2Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT2Show);
+        edtT2Show.setBounds(80, 80, 60, 30);
+
+        edtT2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT2Edit);
+        edtT2Edit.setBounds(150, 80, 60, 30);
+
+        btnT2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT2Set.setText("set");
+        btnT2Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT2SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT2Set);
+        btnT2Set.setBounds(220, 80, 60, 30);
+
+        btnPS2Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS2Get.setText("req");
+        btnPS2Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS2GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS2Get);
+        btnPS2Get.setBounds(310, 80, 60, 30);
+
+        edtPS2Show.setEditable(false);
+        edtPS2Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS2Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS2Show);
+        edtPS2Show.setBounds(380, 80, 100, 30);
+
+        edtPS2Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS2Edit);
+        edtPS2Edit.setBounds(490, 80, 100, 30);
+
+        btnPS2Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS2Set.setText("set");
+        btnPS2Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS2SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS2Set);
+        btnPS2Set.setBounds(600, 80, 60, 30);
+
+        btnT3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT3Get.setText("req");
+        btnT3Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT3GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT3Get);
+        btnT3Get.setBounds(10, 110, 60, 30);
+
+        edtT3Show.setEditable(false);
+        edtT3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT3Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT3Show);
+        edtT3Show.setBounds(80, 110, 60, 30);
+
+        edtT3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT3Edit);
+        edtT3Edit.setBounds(150, 110, 60, 30);
+
+        btnT3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT3Set.setText("set");
+        btnT3Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT3SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT3Set);
+        btnT3Set.setBounds(220, 110, 60, 30);
+
+        btnPS3Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS3Get.setText("req");
+        btnPS3Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS3GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS3Get);
+        btnPS3Get.setBounds(310, 110, 60, 30);
+
+        edtPS3Show.setEditable(false);
+        edtPS3Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS3Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS3Show);
+        edtPS3Show.setBounds(380, 110, 100, 30);
+
+        edtPS3Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS3Edit);
+        edtPS3Edit.setBounds(490, 110, 100, 30);
+
+        btnPS3Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS3Set.setText("set");
+        btnPS3Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS3SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS3Set);
+        btnPS3Set.setBounds(600, 110, 60, 30);
+
+        btnT4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT4Get.setText("req");
+        btnT4Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT4GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT4Get);
+        btnT4Get.setBounds(10, 140, 60, 30);
+
+        edtT4Show.setEditable(false);
+        edtT4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT4Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT4Show);
+        edtT4Show.setBounds(80, 140, 60, 30);
+
+        edtT4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT4Edit);
+        edtT4Edit.setBounds(150, 140, 60, 30);
+
+        btnT4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT4Set.setText("set");
+        btnT4Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT4SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT4Set);
+        btnT4Set.setBounds(220, 140, 60, 30);
+
+        btnT5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT5Get.setText("req");
+        btnT5Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT5GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT5Get);
+        btnT5Get.setBounds(10, 170, 60, 30);
+
+        edtT5Show.setEditable(false);
+        edtT5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT5Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT5Show);
+        edtT5Show.setBounds(80, 170, 60, 30);
+
+        edtT5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT5Edit);
+        edtT5Edit.setBounds(150, 170, 60, 30);
+
+        btnT5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT5Set.setText("set");
+        btnT5Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT5SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT5Set);
+        btnT5Set.setBounds(220, 170, 60, 30);
+
+        btnPS4Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS4Get.setText("req");
+        btnPS4Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS4GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS4Get);
+        btnPS4Get.setBounds(310, 140, 60, 30);
+
+        edtPS4Show.setEditable(false);
+        edtPS4Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS4Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS4Show);
+        edtPS4Show.setBounds(380, 140, 100, 30);
+
+        edtPS4Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS4Edit);
+        edtPS4Edit.setBounds(490, 140, 100, 30);
+
+        btnPS4Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS4Set.setText("set");
+        btnPS4Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS4SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS4Set);
+        btnPS4Set.setBounds(600, 140, 60, 30);
+
+        btnPS5Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS5Get.setText("req");
+        btnPS5Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS5GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS5Get);
+        btnPS5Get.setBounds(310, 170, 60, 30);
+
+        edtPS5Show.setEditable(false);
+        edtPS5Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS5Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS5Show);
+        edtPS5Show.setBounds(380, 170, 100, 30);
+
+        edtPS5Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS5Edit);
+        edtPS5Edit.setBounds(490, 170, 100, 30);
+
+        btnPS5Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS5Set.setText("set");
+        btnPS5Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS5SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS5Set);
+        btnPS5Set.setBounds(600, 170, 60, 30);
+
+        btnT6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT6Get.setText("req");
+        btnT6Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT6GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT6Get);
+        btnT6Get.setBounds(10, 200, 60, 30);
+
+        edtT6Show.setEditable(false);
+        edtT6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT6Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT6Show);
+        edtT6Show.setBounds(80, 200, 60, 30);
+
+        edtT6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT6Edit);
+        edtT6Edit.setBounds(150, 200, 60, 30);
+
+        btnT6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT6Set.setText("set");
+        btnT6Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT6SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT6Set);
+        btnT6Set.setBounds(220, 200, 60, 30);
+
+        btnT7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT7Get.setText("req");
+        btnT7Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT7GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT7Get);
+        btnT7Get.setBounds(10, 230, 60, 30);
+
+        edtT7Show.setEditable(false);
+        edtT7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT7Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT7Show);
+        edtT7Show.setBounds(80, 230, 60, 30);
+
+        edtT7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT7Edit);
+        edtT7Edit.setBounds(150, 230, 60, 30);
+
+        btnT7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT7Set.setText("set");
+        btnT7Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT7SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT7Set);
+        btnT7Set.setBounds(220, 230, 60, 30);
+
+        btnT8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT8Get.setText("req");
+        btnT8Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT8GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT8Get);
+        btnT8Get.setBounds(10, 260, 60, 30);
+
+        edtT8Show.setEditable(false);
+        edtT8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT8Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT8Show);
+        edtT8Show.setBounds(80, 260, 60, 30);
+
+        edtT8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT8Edit);
+        edtT8Edit.setBounds(150, 260, 60, 30);
+
+        btnT8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT8Set.setText("set");
+        btnT8Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT8SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT8Set);
+        btnT8Set.setBounds(220, 260, 60, 30);
+
+        btnT9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT9Get.setText("req");
+        btnT9Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT9GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT9Get);
+        btnT9Get.setBounds(10, 290, 60, 30);
+
+        edtT9Show.setEditable(false);
+        edtT9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT9Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT9Show);
+        edtT9Show.setBounds(80, 290, 60, 30);
+
+        edtT9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT9Edit);
+        edtT9Edit.setBounds(150, 290, 60, 30);
+
+        btnT9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT9Set.setText("set");
+        btnT9Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT9SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT9Set);
+        btnT9Set.setBounds(220, 290, 60, 30);
+
+        btnT10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT10Get.setText("req");
+        btnT10Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT10GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT10Get);
+        btnT10Get.setBounds(10, 320, 60, 30);
+
+        edtT10Show.setEditable(false);
+        edtT10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT10Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT10Show);
+        edtT10Show.setBounds(80, 320, 60, 30);
+
+        edtT10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT10Edit);
+        edtT10Edit.setBounds(150, 320, 60, 30);
+
+        btnT10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT10Set.setText("set");
+        btnT10Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT10SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT10Set);
+        btnT10Set.setBounds(220, 320, 60, 30);
+
+        btnT11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT11Get.setText("req");
+        btnT11Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT11GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT11Get);
+        btnT11Get.setBounds(10, 350, 60, 30);
+
+        edtT11Show.setEditable(false);
+        edtT11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtT11Show.setEnabled(false);
+        pnlCalibrationTable.add(edtT11Show);
+        edtT11Show.setBounds(80, 350, 60, 30);
+
+        edtT11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtT11Edit);
+        edtT11Edit.setBounds(150, 350, 60, 30);
+
+        btnT11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnT11Set.setText("set");
+        btnT11Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT11SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnT11Set);
+        btnT11Set.setBounds(220, 350, 60, 30);
+
+        btnPS6Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS6Get.setText("req");
+        btnPS6Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS6GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS6Get);
+        btnPS6Get.setBounds(310, 200, 60, 30);
+
+        edtPS6Show.setEditable(false);
+        edtPS6Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS6Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS6Show);
+        edtPS6Show.setBounds(380, 200, 100, 30);
+
+        edtPS6Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS6Edit);
+        edtPS6Edit.setBounds(490, 200, 100, 30);
+
+        btnPS6Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS6Set.setText("set");
+        btnPS6Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS6SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS6Set);
+        btnPS6Set.setBounds(600, 200, 60, 30);
+
+        btnPS7Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS7Get.setText("req");
+        btnPS7Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS7GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS7Get);
+        btnPS7Get.setBounds(310, 230, 60, 30);
+
+        edtPS7Show.setEditable(false);
+        edtPS7Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS7Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS7Show);
+        edtPS7Show.setBounds(380, 230, 100, 30);
+
+        edtPS7Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS7Edit);
+        edtPS7Edit.setBounds(490, 230, 100, 30);
+
+        btnPS7Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS7Set.setText("set");
+        btnPS7Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS7SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS7Set);
+        btnPS7Set.setBounds(600, 230, 60, 30);
+
+        btnPS8Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS8Get.setText("req");
+        btnPS8Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS8GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS8Get);
+        btnPS8Get.setBounds(310, 260, 60, 30);
+
+        edtPS8Show.setEditable(false);
+        edtPS8Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS8Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS8Show);
+        edtPS8Show.setBounds(380, 260, 100, 30);
+
+        edtPS8Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS8Edit);
+        edtPS8Edit.setBounds(490, 260, 100, 30);
+
+        btnPS8Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS8Set.setText("set");
+        btnPS8Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS8SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS8Set);
+        btnPS8Set.setBounds(600, 260, 60, 30);
+
+        btnPS9Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS9Get.setText("req");
+        btnPS9Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS9GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS9Get);
+        btnPS9Get.setBounds(310, 290, 60, 30);
+
+        edtPS9Show.setEditable(false);
+        edtPS9Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS9Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS9Show);
+        edtPS9Show.setBounds(380, 290, 100, 30);
+
+        edtPS9Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS9Edit);
+        edtPS9Edit.setBounds(490, 290, 100, 30);
+
+        btnPS9Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS9Set.setText("set");
+        btnPS9Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS9SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS9Set);
+        btnPS9Set.setBounds(600, 290, 60, 30);
+
+        btnPS10Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS10Get.setText("req");
+        btnPS10Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS10GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS10Get);
+        btnPS10Get.setBounds(310, 320, 60, 30);
+
+        edtPS10Show.setEditable(false);
+        edtPS10Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS10Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS10Show);
+        edtPS10Show.setBounds(380, 320, 100, 30);
+
+        edtPS10Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS10Edit);
+        edtPS10Edit.setBounds(490, 320, 100, 30);
+
+        btnPS10Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS10Set.setText("set");
+        btnPS10Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS10SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS10Set);
+        btnPS10Set.setBounds(600, 320, 60, 30);
+
+        btnPS11Get.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS11Get.setText("req");
+        btnPS11Get.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS11GetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS11Get);
+        btnPS11Get.setBounds(310, 350, 60, 30);
+
+        edtPS11Show.setEditable(false);
+        edtPS11Show.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtPS11Show.setEnabled(false);
+        pnlCalibrationTable.add(edtPS11Show);
+        edtPS11Show.setBounds(380, 350, 100, 30);
+
+        edtPS11Edit.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlCalibrationTable.add(edtPS11Edit);
+        edtPS11Edit.setBounds(490, 350, 100, 30);
+
+        btnPS11Set.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnPS11Set.setText("set");
+        btnPS11Set.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPS11SetActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnPS11Set);
+        btnPS11Set.setBounds(600, 350, 60, 30);
+
+        btnResetCalibData.setText("Сбросить данные калибровки");
+        btnResetCalibData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnResetCalibDataActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnResetCalibData);
+        btnResetCalibData.setBounds(10, 390, 650, 30);
+
+        btnSaveData.setText("Сохранить данные калибровки в память МК");
+        btnSaveData.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveDataActionPerformed(evt);
+            }
+        });
+        pnlCalibrationTable.add(btnSaveData);
+        btnSaveData.setBounds(10, 430, 650, 30);
+
+        getContentPane().add(pnlCalibrationTable);
+        pnlCalibrationTable.setBounds(10, 510, 670, 470);
 
         pack();
         setLocationRelativeTo(null);
@@ -1253,11 +1382,6 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x02, ( byte) 0);
         theApp.m_bParamsChanged = true;
     }//GEN-LAST:event_btnDecCoeffRecalcRecalcActionPerformed
-
-    private void btnDecCoeffRecalcOffActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcOffActionPerformed
-        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0xFF, ( byte) 0);
-        theApp.m_bParamsChanged = true;
-    }//GEN-LAST:event_btnDecCoeffRecalcOffActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
@@ -2062,6 +2186,30 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         theApp.m_bParamsChanged = true;
     }//GEN-LAST:event_btnDecCoeffRecalcManualActionPerformed
 
+    private void btnDecCoeffRecalcCalib1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalib1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDecCoeffRecalcCalib1ActionPerformed
+
+    private void btnDecCoeffRecalcRecalc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDecCoeffRecalcRecalc1ActionPerformed
+
+    private void btnDecCoeffRecalcRecalc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDecCoeffRecalcRecalc2ActionPerformed
+
+    private void btnT1Set1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT1Set1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnT1Set1ActionPerformed
+
+    private void btnDecCoeffRecalcRecalc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDecCoeffRecalcRecalc3ActionPerformed
+
+    private void btnDecCoeffRecalcRecalc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDecCoeffRecalcRecalc4ActionPerformed
+
 
     private class PortReader implements SerialPortEventListener {
 
@@ -2092,9 +2240,13 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public javax.swing.JButton btnConnect;
     private javax.swing.JButton btnDecCoeffRecalcCalib;
+    private javax.swing.JButton btnDecCoeffRecalcCalib1;
     private javax.swing.JButton btnDecCoeffRecalcManual;
-    private javax.swing.JButton btnDecCoeffRecalcOff;
     private javax.swing.JButton btnDecCoeffRecalcRecalc;
+    private javax.swing.JButton btnDecCoeffRecalcRecalc1;
+    private javax.swing.JButton btnDecCoeffRecalcRecalc2;
+    private javax.swing.JButton btnDecCoeffRecalcRecalc3;
+    private javax.swing.JButton btnDecCoeffRecalcRecalc4;
     public javax.swing.JButton btnDisconnect;
     public javax.swing.JButton btnPS10Get;
     public javax.swing.JButton btnPS10Set;
@@ -2126,6 +2278,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     public javax.swing.JButton btnT11Set;
     public javax.swing.JButton btnT1Get;
     public javax.swing.JButton btnT1Set;
+    public javax.swing.JButton btnT1Set1;
     public javax.swing.JButton btnT2Get;
     public javax.swing.JButton btnT2Set;
     public javax.swing.JButton btnT3Get;
@@ -2170,7 +2323,9 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField edtT11Edit;
     private javax.swing.JTextField edtT11Show;
     private javax.swing.JTextField edtT1Edit;
+    private javax.swing.JTextField edtT1Edit1;
     private javax.swing.JTextField edtT1Show;
+    private javax.swing.JTextField edtT1Show1;
     private javax.swing.JTextField edtT2Edit;
     private javax.swing.JTextField edtT2Show;
     private javax.swing.JTextField edtT3Edit;
@@ -2187,6 +2342,16 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField edtT8Show;
     private javax.swing.JTextField edtT9Edit;
     private javax.swing.JTextField edtT9Show;
+    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblConnectionStateTitle;
     private javax.swing.JLabel lblConnectionStateValue;
     private javax.swing.JLabel lblCurrentPhaseShiftTitle;
@@ -2194,9 +2359,11 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel lblCurrentTD1Title;
     private javax.swing.JLabel lblCurrentTD1Value;
     private javax.swing.JLabel lblPhaseShift;
-    private javax.swing.JLabel lblPhaseShiftUsageTitle;
-    private javax.swing.JLabel lblPhaseShiftUsageValue;
     private javax.swing.JLabel lblPort;
     private javax.swing.JLabel lblTemperature;
+    private javax.swing.JPanel pnlCalibrationTable;
+    private javax.swing.JPanel pnlCurrentParams;
+    private javax.swing.JPanel pnlInProcess;
+    private javax.swing.JPanel pnlStartParameters;
     // End of variables declaration//GEN-END:variables
 }
