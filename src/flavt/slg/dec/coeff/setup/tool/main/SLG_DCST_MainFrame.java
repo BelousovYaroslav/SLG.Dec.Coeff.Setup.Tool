@@ -66,7 +66,11 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         initComponents();
         
         m_lstRequestedParams = new LinkedList();
-        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0) );
+        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_START_DEF, ( byte) 0) );
+        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_START, ( byte) 0) );
+        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_RECALC, ( byte) 0) );
+        m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_RECALC_PERIOD, ( byte) 0) );
+        
         m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DEC_COEFF, ( byte) 0));
         for( int i=0; i < theApp.LIST_PARAMS_LEN; i++) {
             m_lstRequestedParams.add( new ReqItem( ( byte) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_T, ( byte) i));
@@ -96,7 +100,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 for( int i = 0; i < theApp.LIST_PARAMS_LEN; bAllDefined = bAllDefined & theApp.m_bParamTDefined[i] & (theApp.m_nParamDcDefined[i++] == 0x03));
                 
                 
-                btnDecCoeffRecalcCalib.setEnabled( theApp.m_bConnected && bAllDefined);
+                btnDecCoeffRecalcCalibApprox.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcRecalc.setEnabled( theApp.m_bConnected && bAllDefined);
                 btnDecCoeffRecalcManual.setEnabled( theApp.m_bConnected && bAllDefined);
                 
@@ -121,9 +125,13 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                         
                 for( int i=0; i<11; i++) {
                     btnsTGet[i].setEnabled( theApp.m_bConnected && bAllDefined);
-                    btnsTSet[i].setEnabled( theApp.m_bConnected && bAllDefined && theApp.m_nDecCoeffCalibrationUsage != SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB);
+                    btnsTSet[i].setEnabled( theApp.m_bConnected && bAllDefined &&
+                                theApp.m_nDecCoeffRecalc != SLG_DCST_App.DEC_COEFF_RECALC_CALIB_HARD &&
+                                theApp.m_nDecCoeffRecalc != SLG_DCST_App.DEC_COEFF_RECALC_CALIB_APPROX);
                     btnsPhshGet[i].setEnabled( theApp.m_bConnected && bAllDefined);
-                    btnsPhshSet[i].setEnabled( theApp.m_bConnected && bAllDefined && theApp.m_nDecCoeffCalibrationUsage != SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB);
+                    btnsPhshSet[i].setEnabled( theApp.m_bConnected && bAllDefined &&
+                                theApp.m_nDecCoeffRecalc != SLG_DCST_App.DEC_COEFF_RECALC_CALIB_HARD &&
+                                theApp.m_nDecCoeffRecalc != SLG_DCST_App.DEC_COEFF_RECALC_CALIB_APPROX);
                 }
 
             }
@@ -182,13 +190,13 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 
                 if( theApp.m_bConnected) {
                     if( theApp.m_nDeviceRegime == SLG_Constants.SLG_REGIME_SYNC)
-                        lblCurrentPhaseShiftValue.setText( "СИНХ");
+                        lblCurrentDecCoeffValue.setText( "СИНХ");
                     else
-                        lblCurrentPhaseShiftValue.setText( String.format( "%.05f", ( double) theApp.m_nCurrentDecCoeff / 65535.));
+                        lblCurrentDecCoeffValue.setText( String.format( "%.05f", ( double) theApp.m_nDecCoeffCurrent / 655350.));
                         
                 }
                 else {
-                    lblCurrentPhaseShiftValue.setText( "XXX");
+                    lblCurrentDecCoeffValue.setText( "XXX");
                 }
                 
                 if( theApp.m_bConnected) {
@@ -198,6 +206,95 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                     lblCurrentTD1Value.setText( "XXX");
                 }
                 
+
+                
+                if( theApp.m_bConnected) {
+                    if( theApp.m_nDecCoeffStartDef == SLG_DCST_App.DEC_COEFF_STARTDEF_DCSTART)
+                        lblDcStartDcStart.setText( "v");
+                    else
+                        lblDcStartDcStart.setText( " ");
+                    
+                    if( theApp.m_nDecCoeffStartDef == SLG_DCST_App.DEC_COEFF_STARTDEF_CALIB)
+                        lblDcStartTable.setText( "v");
+                    else
+                        lblDcStartTable.setText( " ");
+                    
+                }
+                else {
+                    lblDcStartDcStart.setText( "x");
+                    lblDcStartTable.setText( "x");
+                }
+                
+                
+                if( theApp.m_bConnected) {
+                    if( theApp.m_nDecCoeffStart == 65535)
+                        edtDcStartCurrentValue.setText( "");
+                    else
+                        edtDcStartCurrentValue.setText( String.format( "%.6f", ( double) theApp.m_nDecCoeffStart / 655350.));
+                    
+                }
+                else {
+                    edtDcStartCurrentValue.setText( "x");
+                }
+                
+                
+                
+                if( theApp.m_bConnected) {
+                    if( theApp.m_nDecCoeffRecalc == SLG_DCST_App.DEC_COEFF_RECALC_RECALC)
+                        lblSignDecCoeffRecalcRecalc.setText( "v");
+                    else
+                        lblSignDecCoeffRecalcRecalc.setText( " ");
+                    
+                    if( theApp.m_nDecCoeffRecalc == SLG_DCST_App.DEC_COEFF_RECALC_CALIB_HARD)
+                        lblSignDecCoeffRecalcCalibHard.setText( "v");
+                    else
+                        lblSignDecCoeffRecalcCalibHard.setText( " ");
+                    
+                    if( theApp.m_nDecCoeffRecalc == SLG_DCST_App.DEC_COEFF_RECALC_CALIB_APPROX)
+                        lblSignDecCoeffRecalcCalibApprox.setText( "v");
+                    else
+                        lblSignDecCoeffRecalcCalibApprox.setText( " ");
+                    
+                    if( theApp.m_nDecCoeffRecalc == SLG_DCST_App.DEC_COEFF_RECALC_MANUAL)
+                        lblSignDecCoeffRecalcManual.setText( "v");
+                    else
+                        lblSignDecCoeffRecalcManual.setText( " ");                    
+                }
+                else {
+                    lblSignDecCoeffRecalcRecalc.setText( "x");
+                    lblSignDecCoeffRecalcCalibHard.setText( "x");
+                    lblSignDecCoeffRecalcCalibApprox.setText( "x");
+                    lblSignDecCoeffRecalcManual.setText( "x");
+                }
+                
+                if( theApp.m_bConnected) {
+                    if( theApp.m_nDecCoeffRecalcPeriod != 65535)
+                        edtDcRecalcPeriodCurrent.setText( "" + theApp.m_nDecCoeffRecalcPeriod);
+                    else
+                        edtDcRecalcPeriodCurrent.setText( "");
+                }
+                else
+                    edtDcRecalcPeriodCurrent.setText( "x");
+                
+
+                if( theApp.m_bConnected) {
+                    switch( theApp.m_nMainParamOutput) {
+                        case SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DPHI:
+                            lblCurrentoutputParam.setText( "Прибор выдаёт приращения угла");
+                        break;
+                            
+                        case SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DNDU:
+                            lblCurrentoutputParam.setText( "Прибор выдаёт dN-dU");
+                        break;
+                            
+                        default:
+                            lblCurrentoutputParam.setText( "Основной параметр выдаваемый прибором неопределён");
+                    }
+                }
+                else
+                    lblCurrentoutputParam.setText( "Нет связи с прибором");
+                
+                        
                 JTextField edtsT[] =  { edtT1Show, edtT2Show, edtT3Show, edtT4Show, edtT5Show,
                                         edtT6Show, edtT7Show, edtT8Show, edtT9Show, edtT10Show,
                                         edtT11Show };
@@ -278,33 +375,35 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         lblConnectionStateTitle = new javax.swing.JLabel();
         lblConnectionStateValue = new javax.swing.JLabel();
         pnlCurrentParams = new javax.swing.JPanel();
-        lblCurrentPhaseShiftTitle = new javax.swing.JLabel();
+        lblCurrentDecCoeffTitle = new javax.swing.JLabel();
         lblCurrentTD1Title = new javax.swing.JLabel();
-        lblCurrentPhaseShiftValue = new javax.swing.JLabel();
+        lblCurrentDecCoeffValue = new javax.swing.JLabel();
         lblCurrentTD1Value = new javax.swing.JLabel();
         pnlStartParameters = new javax.swing.JPanel();
-        btnDecCoeffRecalcRecalc1 = new javax.swing.JButton();
-        btnDecCoeffRecalcRecalc2 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        edtT1Show1 = new javax.swing.JTextField();
-        edtT1Edit1 = new javax.swing.JTextField();
-        btnT1Set1 = new javax.swing.JButton();
-        btnDecCoeffRecalcRecalc3 = new javax.swing.JButton();
+        btnDcStartSetTable = new javax.swing.JButton();
+        btnSaveDcStartDefAndValue = new javax.swing.JButton();
+        lblDcStartTable = new javax.swing.JLabel();
+        lblDcStartDcStart = new javax.swing.JLabel();
+        edtDcStartCurrentValue = new javax.swing.JTextField();
+        edtDcStartSetValue = new javax.swing.JTextField();
+        btnSetDcStartValue = new javax.swing.JButton();
+        btnDcStartSetDcStart = new javax.swing.JButton();
         pnlInProcess = new javax.swing.JPanel();
+        lblSignDecCoeffRecalcRecalc = new javax.swing.JLabel();
         btnDecCoeffRecalcRecalc = new javax.swing.JButton();
-        btnDecCoeffRecalcCalib = new javax.swing.JButton();
-        btnDecCoeffRecalcCalib1 = new javax.swing.JButton();
+        lblSignDecCoeffRecalcCalibHard = new javax.swing.JLabel();
+        btnDecCoeffRecalcCalibHard = new javax.swing.JButton();
+        lblSignDecCoeffRecalcCalibApprox = new javax.swing.JLabel();
+        btnDecCoeffRecalcCalibApprox = new javax.swing.JButton();
+        lblSignDecCoeffRecalcManual = new javax.swing.JLabel();
         btnDecCoeffRecalcManual = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
-        btnDecCoeffRecalcRecalc4 = new javax.swing.JButton();
+        lblDecCoeffRecalcTitle = new javax.swing.JLabel();
+        lblDecCoeffRecalcPeriodValuePrefix = new javax.swing.JLabel();
+        edtDcRecalcPeriodCurrent = new javax.swing.JTextField();
+        edtDcRecalcPeriodSet = new javax.swing.JTextField();
+        lblDecCoeffRecalcUnits = new javax.swing.JLabel();
+        btnDecCoeffRecalсSave = new javax.swing.JButton();
+        btnSetDcRecalcPeriod = new javax.swing.JButton();
         pnlCalibrationTable = new javax.swing.JPanel();
         lblTemperature = new javax.swing.JLabel();
         lblPhaseShift = new javax.swing.JLabel();
@@ -398,23 +497,23 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         btnPS11Set = new javax.swing.JButton();
         btnResetCalibData = new javax.swing.JButton();
         btnSaveData = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        btnDecCoeffRecalcRecalc5 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jButton9 = new javax.swing.JButton();
-        jButton10 = new javax.swing.JButton();
-        jButton11 = new javax.swing.JButton();
-        jButton12 = new javax.swing.JButton();
-        jButton13 = new javax.swing.JButton();
-        jButton14 = new javax.swing.JButton();
+        pnlCalcDc = new javax.swing.JPanel();
+        lblCurrentoutputParam = new javax.swing.JLabel();
+        btnSwitchCurrentOutputParam = new javax.swing.JButton();
+        btnCalcDcStart = new javax.swing.JButton();
+        SetCalcedDcAsStartValue = new javax.swing.JButton();
+        btnCalcDcReset = new javax.swing.JButton();
+        btnT1 = new javax.swing.JButton();
+        btnT2 = new javax.swing.JButton();
+        btnT3 = new javax.swing.JButton();
+        btnT4 = new javax.swing.JButton();
+        btnT5 = new javax.swing.JButton();
+        btnT6 = new javax.swing.JButton();
+        btnT7 = new javax.swing.JButton();
+        btnT8 = new javax.swing.JButton();
+        btnT9 = new javax.swing.JButton();
+        btnT10 = new javax.swing.JButton();
+        btnT11 = new javax.swing.JButton();
         lblConnectionStateValue1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -465,19 +564,19 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         pnlCurrentParams.setBorder(javax.swing.BorderFactory.createTitledBorder("Текущие параметры"));
         pnlCurrentParams.setLayout(null);
 
-        lblCurrentPhaseShiftTitle.setText("Текущее (последнее выставленное) значение Квычета: ");
-        pnlCurrentParams.add(lblCurrentPhaseShiftTitle);
-        lblCurrentPhaseShiftTitle.setBounds(10, 20, 410, 30);
+        lblCurrentDecCoeffTitle.setText("Текущее (последнее выставленное) значение Квычета: ");
+        pnlCurrentParams.add(lblCurrentDecCoeffTitle);
+        lblCurrentDecCoeffTitle.setBounds(10, 20, 410, 30);
 
         lblCurrentTD1Title.setText("Текущая температура (TD1):");
         pnlCurrentParams.add(lblCurrentTD1Title);
         lblCurrentTD1Title.setBounds(10, 60, 410, 30);
 
-        lblCurrentPhaseShiftValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblCurrentPhaseShiftValue.setText("???");
-        lblCurrentPhaseShiftValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlCurrentParams.add(lblCurrentPhaseShiftValue);
-        lblCurrentPhaseShiftValue.setBounds(430, 20, 130, 30);
+        lblCurrentDecCoeffValue.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblCurrentDecCoeffValue.setText("???");
+        lblCurrentDecCoeffValue.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlCurrentParams.add(lblCurrentDecCoeffValue);
+        lblCurrentDecCoeffValue.setBounds(430, 20, 130, 30);
 
         lblCurrentTD1Value.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblCurrentTD1Value.setText("???");
@@ -491,66 +590,73 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         pnlStartParameters.setBorder(javax.swing.BorderFactory.createTitledBorder("Стартовое значение коэффициента вычета"));
         pnlStartParameters.setLayout(null);
 
-        btnDecCoeffRecalcRecalc1.setText("Брать из таблицы калибровки");
-        btnDecCoeffRecalcRecalc1.addActionListener(new java.awt.event.ActionListener() {
+        btnDcStartSetTable.setText("Брать из таблицы калибровки");
+        btnDcStartSetTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalc1ActionPerformed(evt);
+                btnDcStartSetTableActionPerformed(evt);
             }
         });
-        pnlStartParameters.add(btnDecCoeffRecalcRecalc1);
-        btnDecCoeffRecalcRecalc1.setBounds(50, 60, 260, 30);
+        pnlStartParameters.add(btnDcStartSetTable);
+        btnDcStartSetTable.setBounds(50, 60, 260, 30);
 
-        btnDecCoeffRecalcRecalc2.setText("Сохранить");
-        btnDecCoeffRecalcRecalc2.addActionListener(new java.awt.event.ActionListener() {
+        btnSaveDcStartDefAndValue.setText("Сохранить");
+        btnSaveDcStartDefAndValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalc2ActionPerformed(evt);
+                btnSaveDcStartDefAndValueActionPerformed(evt);
             }
         });
-        pnlStartParameters.add(btnDecCoeffRecalcRecalc2);
-        btnDecCoeffRecalcRecalc2.setBounds(430, 60, 130, 30);
+        pnlStartParameters.add(btnSaveDcStartDefAndValue);
+        btnSaveDcStartDefAndValue.setBounds(430, 60, 130, 30);
 
-        jLabel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlStartParameters.add(jLabel7);
-        jLabel7.setBounds(10, 60, 30, 30);
+        lblDcStartTable.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDcStartTable.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlStartParameters.add(lblDcStartTable);
+        lblDcStartTable.setBounds(10, 60, 30, 30);
 
-        jLabel8.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlStartParameters.add(jLabel8);
-        jLabel8.setBounds(10, 20, 30, 30);
+        lblDcStartDcStart.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDcStartDcStart.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlStartParameters.add(lblDcStartDcStart);
+        lblDcStartDcStart.setBounds(10, 20, 30, 30);
 
-        edtT1Show1.setEditable(false);
-        edtT1Show1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        edtT1Show1.setEnabled(false);
-        pnlStartParameters.add(edtT1Show1);
-        edtT1Show1.setBounds(320, 20, 80, 30);
+        edtDcStartCurrentValue.setEditable(false);
+        edtDcStartCurrentValue.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtDcStartCurrentValue.setEnabled(false);
+        pnlStartParameters.add(edtDcStartCurrentValue);
+        edtDcStartCurrentValue.setBounds(320, 20, 80, 30);
 
-        edtT1Edit1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        pnlStartParameters.add(edtT1Edit1);
-        edtT1Edit1.setBounds(410, 20, 80, 30);
+        edtDcStartSetValue.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        pnlStartParameters.add(edtDcStartSetValue);
+        edtDcStartSetValue.setBounds(410, 20, 80, 30);
 
-        btnT1Set1.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        btnT1Set1.setText("set");
-        btnT1Set1.addActionListener(new java.awt.event.ActionListener() {
+        btnSetDcStartValue.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnSetDcStartValue.setText("set");
+        btnSetDcStartValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnT1Set1ActionPerformed(evt);
+                btnSetDcStartValueActionPerformed(evt);
             }
         });
-        pnlStartParameters.add(btnT1Set1);
-        btnT1Set1.setBounds(500, 20, 60, 30);
+        pnlStartParameters.add(btnSetDcStartValue);
+        btnSetDcStartValue.setBounds(500, 20, 60, 30);
 
-        btnDecCoeffRecalcRecalc3.setText("Стартовое значение");
-        btnDecCoeffRecalcRecalc3.addActionListener(new java.awt.event.ActionListener() {
+        btnDcStartSetDcStart.setText("Стартовое значение");
+        btnDcStartSetDcStart.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalc3ActionPerformed(evt);
+                btnDcStartSetDcStartActionPerformed(evt);
             }
         });
-        pnlStartParameters.add(btnDecCoeffRecalcRecalc3);
-        btnDecCoeffRecalcRecalc3.setBounds(50, 20, 260, 30);
+        pnlStartParameters.add(btnDcStartSetDcStart);
+        btnDcStartSetDcStart.setBounds(50, 20, 260, 30);
 
         getContentPane().add(pnlStartParameters);
         pnlStartParameters.setBounds(10, 200, 570, 100);
 
         pnlInProcess.setBorder(javax.swing.BorderFactory.createTitledBorder("Переопределение коэффициента вычета в процессе работы"));
         pnlInProcess.setLayout(null);
+
+        lblSignDecCoeffRecalcRecalc.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSignDecCoeffRecalcRecalc.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(lblSignDecCoeffRecalcRecalc);
+        lblSignDecCoeffRecalcRecalc.setBounds(10, 20, 30, 30);
 
         btnDecCoeffRecalcRecalc.setText("Перевычисление");
         btnDecCoeffRecalcRecalc.addActionListener(new java.awt.event.ActionListener() {
@@ -561,23 +667,38 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         pnlInProcess.add(btnDecCoeffRecalcRecalc);
         btnDecCoeffRecalcRecalc.setBounds(50, 20, 260, 30);
 
-        btnDecCoeffRecalcCalib.setText("Калибровка сглаженная");
-        btnDecCoeffRecalcCalib.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcCalibActionPerformed(evt);
-            }
-        });
-        pnlInProcess.add(btnDecCoeffRecalcCalib);
-        btnDecCoeffRecalcCalib.setBounds(50, 100, 260, 30);
+        lblSignDecCoeffRecalcCalibHard.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSignDecCoeffRecalcCalibHard.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(lblSignDecCoeffRecalcCalibHard);
+        lblSignDecCoeffRecalcCalibHard.setBounds(10, 60, 30, 30);
 
-        btnDecCoeffRecalcCalib1.setText("Калибровка ступенчатая");
-        btnDecCoeffRecalcCalib1.addActionListener(new java.awt.event.ActionListener() {
+        btnDecCoeffRecalcCalibHard.setText("Калибровка ступенчатая");
+        btnDecCoeffRecalcCalibHard.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcCalib1ActionPerformed(evt);
+                btnDecCoeffRecalcCalibHardActionPerformed(evt);
             }
         });
-        pnlInProcess.add(btnDecCoeffRecalcCalib1);
-        btnDecCoeffRecalcCalib1.setBounds(50, 60, 260, 30);
+        pnlInProcess.add(btnDecCoeffRecalcCalibHard);
+        btnDecCoeffRecalcCalibHard.setBounds(50, 60, 260, 30);
+
+        lblSignDecCoeffRecalcCalibApprox.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSignDecCoeffRecalcCalibApprox.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(lblSignDecCoeffRecalcCalibApprox);
+        lblSignDecCoeffRecalcCalibApprox.setBounds(10, 100, 30, 30);
+
+        btnDecCoeffRecalcCalibApprox.setText("Калибровка сглаженная");
+        btnDecCoeffRecalcCalibApprox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDecCoeffRecalcCalibApproxActionPerformed(evt);
+            }
+        });
+        pnlInProcess.add(btnDecCoeffRecalcCalibApprox);
+        btnDecCoeffRecalcCalibApprox.setBounds(50, 100, 260, 30);
+
+        lblSignDecCoeffRecalcManual.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblSignDecCoeffRecalcManual.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
+        pnlInProcess.add(lblSignDecCoeffRecalcManual);
+        lblSignDecCoeffRecalcManual.setBounds(10, 140, 30, 30);
 
         btnDecCoeffRecalcManual.setText("Ручной режим");
         btnDecCoeffRecalcManual.addActionListener(new java.awt.event.ActionListener() {
@@ -588,44 +709,45 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         pnlInProcess.add(btnDecCoeffRecalcManual);
         btnDecCoeffRecalcManual.setBounds(50, 140, 260, 30);
 
-        jLabel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlInProcess.add(jLabel1);
-        jLabel1.setBounds(10, 140, 30, 30);
+        lblDecCoeffRecalcTitle.setText("Частота переопределения");
+        pnlInProcess.add(lblDecCoeffRecalcTitle);
+        lblDecCoeffRecalcTitle.setBounds(320, 40, 240, 30);
 
-        jLabel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlInProcess.add(jLabel2);
-        jLabel2.setBounds(10, 20, 30, 30);
+        lblDecCoeffRecalcPeriodValuePrefix.setText("раз в");
+        pnlInProcess.add(lblDecCoeffRecalcPeriodValuePrefix);
+        lblDecCoeffRecalcPeriodValuePrefix.setBounds(320, 70, 40, 30);
 
-        jLabel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlInProcess.add(jLabel3);
-        jLabel3.setBounds(10, 60, 30, 30);
+        edtDcRecalcPeriodCurrent.setEditable(false);
+        edtDcRecalcPeriodCurrent.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        edtDcRecalcPeriodCurrent.setEnabled(false);
+        pnlInProcess.add(edtDcRecalcPeriodCurrent);
+        edtDcRecalcPeriodCurrent.setBounds(360, 70, 50, 30);
+        pnlInProcess.add(edtDcRecalcPeriodSet);
+        edtDcRecalcPeriodSet.setBounds(420, 70, 50, 30);
 
-        jLabel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(200, 200, 200)));
-        pnlInProcess.add(jLabel4);
-        jLabel4.setBounds(10, 100, 30, 30);
+        lblDecCoeffRecalcUnits.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblDecCoeffRecalcUnits.setText("сек");
+        pnlInProcess.add(lblDecCoeffRecalcUnits);
+        lblDecCoeffRecalcUnits.setBounds(470, 70, 30, 30);
 
-        jLabel5.setText("1 раз в");
-        pnlInProcess.add(jLabel5);
-        jLabel5.setBounds(340, 70, 60, 30);
-        pnlInProcess.add(jTextField1);
-        jTextField1.setBounds(400, 70, 70, 30);
-
-        jLabel6.setText("Частота переопределения");
-        pnlInProcess.add(jLabel6);
-        jLabel6.setBounds(320, 40, 240, 30);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "секунд", "тактов" }));
-        pnlInProcess.add(jComboBox1);
-        jComboBox1.setBounds(480, 70, 80, 30);
-
-        btnDecCoeffRecalcRecalc4.setText("Сохранить");
-        btnDecCoeffRecalcRecalc4.addActionListener(new java.awt.event.ActionListener() {
+        btnDecCoeffRecalсSave.setText("Сохранить");
+        btnDecCoeffRecalсSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalc4ActionPerformed(evt);
+                btnDecCoeffRecalсSaveActionPerformed(evt);
             }
         });
-        pnlInProcess.add(btnDecCoeffRecalcRecalc4);
-        btnDecCoeffRecalcRecalc4.setBounds(430, 150, 130, 30);
+        pnlInProcess.add(btnDecCoeffRecalсSave);
+        btnDecCoeffRecalсSave.setBounds(430, 150, 130, 30);
+
+        btnSetDcRecalcPeriod.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        btnSetDcRecalcPeriod.setText("set");
+        btnSetDcRecalcPeriod.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSetDcRecalcPeriodActionPerformed(evt);
+            }
+        });
+        pnlInProcess.add(btnSetDcRecalcPeriod);
+        btnSetDcRecalcPeriod.setBounds(500, 70, 60, 30);
 
         getContentPane().add(pnlInProcess);
         pnlInProcess.setBounds(10, 310, 570, 190);
@@ -1329,107 +1451,107 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         getContentPane().add(pnlCalibrationTable);
         pnlCalibrationTable.setBounds(590, 10, 670, 680);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Вычисление текущего Квычета"));
-        jPanel1.setLayout(null);
+        pnlCalcDc.setBorder(javax.swing.BorderFactory.createTitledBorder("Вычисление текущего Квычета"));
+        pnlCalcDc.setLayout(null);
 
-        jLabel9.setText("Прибор выдаёт приращения угла");
-        jPanel1.add(jLabel9);
-        jLabel9.setBounds(10, 20, 410, 30);
+        lblCurrentoutputParam.setText("x");
+        pnlCalcDc.add(lblCurrentoutputParam);
+        lblCurrentoutputParam.setBounds(10, 20, 410, 30);
 
-        btnDecCoeffRecalcRecalc5.setText("Переключить");
-        btnDecCoeffRecalcRecalc5.addActionListener(new java.awt.event.ActionListener() {
+        btnSwitchCurrentOutputParam.setText("Переключить");
+        btnSwitchCurrentOutputParam.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDecCoeffRecalcRecalc5ActionPerformed(evt);
+                btnSwitchCurrentOutputParamActionPerformed(evt);
             }
         });
-        jPanel1.add(btnDecCoeffRecalcRecalc5);
-        btnDecCoeffRecalcRecalc5.setBounds(420, 20, 140, 30);
+        pnlCalcDc.add(btnSwitchCurrentOutputParam);
+        btnSwitchCurrentOutputParam.setBounds(420, 20, 140, 30);
 
-        jButton1.setText("Старт");
-        jPanel1.add(jButton1);
-        jButton1.setBounds(10, 60, 100, 30);
+        btnCalcDcStart.setText("Старт");
+        pnlCalcDc.add(btnCalcDcStart);
+        btnCalcDcStart.setBounds(10, 60, 90, 30);
 
-        jButton2.setText("Копировать в Квыч стартовый");
-        jPanel1.add(jButton2);
-        jButton2.setBounds(230, 60, 330, 30);
+        SetCalcedDcAsStartValue.setText("Копировать в Квыч стартовый");
+        pnlCalcDc.add(SetCalcedDcAsStartValue);
+        SetCalcedDcAsStartValue.setBounds(220, 60, 340, 30);
 
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton3.setText("5");
-        jButton3.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton3);
-        jButton3.setBounds(350, 100, 30, 30);
+        btnCalcDcReset.setText("Сброс");
+        pnlCalcDc.add(btnCalcDcReset);
+        btnCalcDcReset.setBounds(110, 60, 90, 30);
 
-        jButton4.setText("Сброс");
-        jPanel1.add(jButton4);
-        jButton4.setBounds(120, 60, 100, 30);
+        btnT1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT1.setText("1");
+        btnT1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT1);
+        btnT1.setBounds(220, 100, 40, 30);
 
-        jButton5.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton5.setText("1");
-        jButton5.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton5);
-        jButton5.setBounds(230, 100, 30, 30);
+        btnT2.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT2.setText("2");
+        btnT2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT2);
+        btnT2.setBounds(250, 100, 40, 30);
 
-        jButton6.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton6.setText("2");
-        jButton6.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton6);
-        jButton6.setBounds(260, 100, 30, 30);
+        btnT3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT3.setText("3");
+        btnT3.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT3);
+        btnT3.setBounds(280, 100, 40, 30);
 
-        jButton7.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton7.setText("3");
-        jButton7.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton7);
-        jButton7.setBounds(290, 100, 30, 30);
+        btnT4.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT4.setText("4");
+        btnT4.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT4);
+        btnT4.setBounds(310, 100, 40, 30);
 
-        jButton8.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton8.setText("4");
-        jButton8.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton8);
-        jButton8.setBounds(320, 100, 30, 30);
+        btnT5.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT5.setText("5");
+        btnT5.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT5);
+        btnT5.setBounds(340, 100, 40, 30);
 
-        jButton9.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton9.setText("6");
-        jButton9.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton9);
-        jButton9.setBounds(380, 100, 30, 30);
+        btnT6.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT6.setText("6");
+        btnT6.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT6);
+        btnT6.setBounds(370, 100, 40, 30);
 
-        jButton10.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton10.setText("7");
-        jButton10.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton10);
-        jButton10.setBounds(410, 100, 30, 30);
+        btnT7.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT7.setText("7");
+        btnT7.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT7);
+        btnT7.setBounds(400, 100, 40, 30);
 
-        jButton11.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton11.setText("8");
-        jButton11.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton11);
-        jButton11.setBounds(440, 100, 30, 30);
+        btnT8.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT8.setText("8");
+        btnT8.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT8);
+        btnT8.setBounds(430, 100, 40, 30);
 
-        jButton12.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton12.setText("9");
-        jButton12.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton12);
-        jButton12.setBounds(470, 100, 30, 30);
+        btnT9.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT9.setText("9");
+        btnT9.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT9);
+        btnT9.setBounds(460, 100, 40, 30);
 
-        jButton13.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton13.setText("11");
-        jButton13.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton13);
-        jButton13.setBounds(530, 100, 30, 30);
+        btnT10.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT10.setText("10");
+        btnT10.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT10);
+        btnT10.setBounds(490, 100, 40, 30);
 
-        jButton14.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
-        jButton14.setText("10");
-        jButton14.setMargin(new java.awt.Insets(1, 1, 1, 1));
-        jPanel1.add(jButton14);
-        jButton14.setBounds(500, 100, 30, 30);
+        btnT11.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
+        btnT11.setText("11");
+        btnT11.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        pnlCalcDc.add(btnT11);
+        btnT11.setBounds(520, 100, 40, 30);
 
         lblConnectionStateValue1.setText("jLabel2");
         lblConnectionStateValue1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.add(lblConnectionStateValue1);
+        pnlCalcDc.add(lblConnectionStateValue1);
         lblConnectionStateValue1.setBounds(10, 140, 550, 30);
 
-        getContentPane().add(jPanel1);
-        jPanel1.setBounds(10, 510, 570, 180);
+        getContentPane().add(pnlCalcDc);
+        pnlCalcDc.setBounds(10, 510, 570, 180);
 
         pack();
         setLocationRelativeTo(null);
@@ -1477,11 +1599,13 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         
         theApp.m_strVersion = "";
         theApp.m_bConnected = true;
-        theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_UNKNOWN;
+        theApp.m_nDecCoeffRecalc = SLG_DCST_App.DEC_COEFF_RECALC_UNKNOWN;
         theApp.m_bParamsChanged = false;
-        theApp.m_nCurrentDecCoeff = 65535;
+        theApp.m_nDecCoeffCurrent = 655350;
+        theApp.m_nDecCoeffStart = 655350;
         theApp.m_dblTD1 = 0.;
-        theApp.m_nDeviceRegime = SLG_DCST_App.SLG_REGIME_UNKNOWN;
+        theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_UNKNOWN;
+        theApp.m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_UNKNOWN;
     }//GEN-LAST:event_btnConnectActionPerformed
 
     private void btnResetCalibDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnResetCalibDataActionPerformed
@@ -1504,7 +1628,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_btnResetCalibDataActionPerformed
 
     private void btnDecCoeffRecalcRecalcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalcActionPerformed
-        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x02, ( byte) 0);
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_RECALC, ( byte) 0x00, ( byte) 0);
         theApp.m_bParamsChanged = true;
     }//GEN-LAST:event_btnDecCoeffRecalcRecalcActionPerformed
 
@@ -1592,7 +1716,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         }
     }
     
-    public void SendComandSetParam( byte btParam, byte btParamIndex, byte btParamValue) {
+    public void SendComandSetIndexedParam( byte btParam, byte btParamIndex, byte btParamValue) {
         byte aBytes[] = new byte[4];
         aBytes[0] = SLG_ConstantsCmd.SLG_CMD_SET;
         aBytes[1] = btParam;
@@ -1601,8 +1725,26 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         
         try {
             serialPort.writeBytes( aBytes);
-            logger.debug( ">> SET PARAM_" + btParam + "." + btParamIndex + "=" + btParamValue + String.format( "  (0x%02x)", btParamValue));
-            logger.debug( String.format( ">> 0x%02x 0x%02x 0x%02x 0x%02x", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
+            logger.debug( ">> SET PARAM_" + btParam + "." + btParamIndex + "=" + btParamValue + String.format( "  (0x%02X)", btParamValue));
+            logger.debug( String.format( ">> 0x%02X 0x%02X 0x%02X 0x%02X", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
+        } catch (SerialPortException ex) {
+            logger.error( "COM-Communication exception", ex);
+            theApp.m_bConnected = false;
+            SLG_DCST_App.MessageBoxError( "При попытке записи в порт получили исключительную ситуацию:\n\n" + ex.toString(), "SLG_DCST");
+        }
+    }
+    
+    public void SendComandSetParam( byte btParam, byte btValueL, byte btValueH) {
+        byte aBytes[] = new byte[4];
+        aBytes[0] = SLG_ConstantsCmd.SLG_CMD_SET;
+        aBytes[1] = btParam;
+        aBytes[2] = btValueL;
+        aBytes[3] = btValueH;
+        
+        try {
+            serialPort.writeBytes( aBytes);
+            logger.debug( ">> SET PARAM_" + btParam + "=" + String.format( "0x%04X", btValueH * 256 + btValueL));
+            logger.debug( String.format( ">> 0x%02X 0x%02X 0x%02X 0x%02X", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
         } catch (SerialPortException ex) {
             logger.error( "COM-Communication exception", ex);
             theApp.m_bConnected = false;
@@ -1911,6 +2053,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS1SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS1SetActionPerformed
         try {
             String strValue = edtPS1Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -1945,6 +2088,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS2SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS2SetActionPerformed
         try {
             String strValue = edtPS2Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -1979,6 +2123,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS3SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS3SetActionPerformed
         try {
             String strValue = edtPS3Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2013,6 +2158,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS4SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS4SetActionPerformed
         try {
             String strValue = edtPS4Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2047,6 +2193,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS5SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS5SetActionPerformed
         try {
             String strValue = edtPS5Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2081,6 +2228,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS6SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS6SetActionPerformed
         try {
             String strValue = edtPS6Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2115,6 +2263,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS7SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS7SetActionPerformed
         try {
             String strValue = edtPS7Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2149,6 +2298,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS8SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS8SetActionPerformed
         try {
             String strValue = edtPS8Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2183,6 +2333,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS9SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS9SetActionPerformed
         try {
             String strValue = edtPS9Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2217,6 +2368,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS10SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS10SetActionPerformed
         try {
             String strValue = edtPS10Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2251,6 +2403,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private void btnPS11SetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPS11SetActionPerformed
         try {
             String strValue = edtPS11Edit.getText();
+            strValue = strValue.replace( ",", ".");
             Double DblValue = Double.parseDouble(strValue);
             if( DblValue >= 0. && DblValue < 1.) {
                 
@@ -2301,47 +2454,146 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnSaveDataActionPerformed
 
-    private void btnDecCoeffRecalcCalibActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalibActionPerformed
-        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x00, ( byte) 0);
+    private void btnDecCoeffRecalcCalibApproxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalibApproxActionPerformed
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_RECALC, ( byte) 0x02, ( byte) 0);
         theApp.m_bParamsChanged = true;
-    }//GEN-LAST:event_btnDecCoeffRecalcCalibActionPerformed
+    }//GEN-LAST:event_btnDecCoeffRecalcCalibApproxActionPerformed
 
     private void btnDecCoeffRecalcManualActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcManualActionPerformed
-        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE, ( byte) 0x01, ( byte) 0);
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_RECALC, ( byte) 0x03, ( byte) 0);
         theApp.m_bParamsChanged = true;
     }//GEN-LAST:event_btnDecCoeffRecalcManualActionPerformed
 
-    private void btnDecCoeffRecalcCalib1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalib1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcCalib1ActionPerformed
+    private void btnDecCoeffRecalcCalibHardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcCalibHardActionPerformed
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_RECALC, ( byte) 0x01, ( byte) 0);
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnDecCoeffRecalcCalibHardActionPerformed
 
-    private void btnDecCoeffRecalcRecalc1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcRecalc1ActionPerformed
+    private void btnDcStartSetTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDcStartSetTableActionPerformed
+        logger.error( "FUCK!");
+        logger.error( "FUCK!");
+        logger.error( "FUCK!");
+        logger.error( "FUCK! CHECK IF TABLE CORRECT!");
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_START_DEF, ( byte) 0x01, ( byte) 0);
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnDcStartSetTableActionPerformed
 
-    private void btnDecCoeffRecalcRecalc2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcRecalc2ActionPerformed
+    private void btnSaveDcStartDefAndValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveDcStartDefAndValueActionPerformed
+        byte aBytes[] = new byte[4];
+        aBytes[0] = SLG_ConstantsCmd.SLG_CMD_ACT_SAVE_FLASH_PARAM;
+        aBytes[1] = 0;
+        aBytes[2] = 0;
+        aBytes[3] = 0;
+        
+        try {            
+            logger.debug( ">> SAVE P1");
+            logger.debug( String.format( ">> 0x%02x 0x%02x 0x%02x 0x%02x", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
+            serialPort.writeBytes( aBytes);
+            theApp.m_bParamsChanged = false;
+        } catch (SerialPortException ex) {
+            logger.error( "COM-Communication exception", ex);
+            theApp.m_bConnected = false;
+            SLG_DCST_App.MessageBoxError( "При попытке записи в порт получили исключительную ситуацию:\n\n" + ex.toString(), "SLG_DCST");
+        }
+        
+        new Timer( 100, new ActionListener() {
 
-    private void btnT1Set1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT1Set1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnT1Set1ActionPerformed
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                (( Timer) e.getSource()).stop();
+                
+                byte aBytes[] = new byte[4];
+                aBytes[0] = SLG_ConstantsCmd.SLG_CMD_ACT_SAVE_FLASH_PARAM;
+                aBytes[1] = 3;
+                aBytes[2] = 0;
+                aBytes[3] = 0;
+        
+                try {            
+                    logger.debug( ">> SAVE P4");
+                    logger.debug( String.format( ">> 0x%02x 0x%02x 0x%02x 0x%02x", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
+                    serialPort.writeBytes( aBytes);
+                    theApp.m_bParamsChanged = false;
+                } catch( SerialPortException ex) {
+                    logger.error( "COM-Communication exception", ex);
+                    theApp.m_bConnected = false;
+                    SLG_DCST_App.MessageBoxError( "При попытке записи в порт получили исключительную ситуацию:\n\n" + ex.toString(), "SLG_DCST");
+                }
+            }
+        }).start();
+        
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnSaveDcStartDefAndValueActionPerformed
 
-    private void btnDecCoeffRecalcRecalc3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcRecalc3ActionPerformed
+    private void btnSetDcStartValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetDcStartValueActionPerformed
+        String strStartDcValue = edtDcStartSetValue.getText();
+        strStartDcValue = strStartDcValue.replace( ",", ".");
+        double dblStartDcValue;
+        try {
+            dblStartDcValue = Double.parseDouble( strStartDcValue);
+        } catch( NumberFormatException ex) {
+            SLG_DCST_App.MessageBoxError( "Неверно задан стартовый коэффициент вычета!", "SLG_DCST");
+            return;
+        }
+        int nStartDcValue = ( int) ( dblStartDcValue * 655350.);
+        
+        byte b1 = ( byte) ( nStartDcValue & 0xFF);
+        byte b2 = ( byte) ( ( nStartDcValue & 0xFF00) >> 8);
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_START, b1, b2);
+        
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnSetDcStartValueActionPerformed
 
-    private void btnDecCoeffRecalcRecalc4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcRecalc4ActionPerformed
+    private void btnDcStartSetDcStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDcStartSetDcStartActionPerformed
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_START_DEF, ( byte) 0x00, ( byte) 0);
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnDcStartSetDcStartActionPerformed
 
-    private void btnDecCoeffRecalcRecalc5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalcRecalc5ActionPerformed
+    private void btnDecCoeffRecalсSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDecCoeffRecalсSaveActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnDecCoeffRecalcRecalc5ActionPerformed
+    }//GEN-LAST:event_btnDecCoeffRecalсSaveActionPerformed
+
+    private void btnSwitchCurrentOutputParamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSwitchCurrentOutputParamActionPerformed
+        byte aBytes[] = new byte[4];
+        aBytes[0] = SLG_ConstantsCmd.SLG_CMD_ACT_SWC_DW_DNDU_OUTPUT;
+        if( theApp.m_nMainParamOutput == SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DNDU)
+            aBytes[1] = 0;
+        if( theApp.m_nMainParamOutput == SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DPHI)
+            aBytes[1] = 1;
+        
+        aBytes[2] = 0;
+        aBytes[3] = 0;
+        
+        try {            
+            logger.debug( ">> SWITCH MAIN PARAM OUTPUT");
+            logger.debug( String.format( ">> 0x%02X 0x%02X 0x%02X 0x%02X", aBytes[0], aBytes[1], aBytes[2], aBytes[3]));
+            serialPort.writeBytes( aBytes);
+        } catch (SerialPortException ex) {
+            logger.error( "COM-Communication exception", ex);
+            theApp.m_bConnected = false;
+            SLG_DCST_App.MessageBoxError( "При попытке записи в порт получили исключительную ситуацию:\n\n" + ex.toString(), "SLG_DCST");
+        }
+    }//GEN-LAST:event_btnSwitchCurrentOutputParamActionPerformed
 
     private void edtT5ShowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edtT5ShowActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edtT5ShowActionPerformed
+
+    private void btnSetDcRecalcPeriodActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSetDcRecalcPeriodActionPerformed
+        String strDcRecalcPeriod = edtDcRecalcPeriodSet.getText();
+        int nDcRecalcPeriod = 600;
+        try {
+            nDcRecalcPeriod = Integer.parseInt( strDcRecalcPeriod);
+        }
+        catch( NumberFormatException ex) {
+            SLG_DCST_App.MessageBoxError( "Плохой период переопределения Квычета!", "SLG_DCST");
+            return;
+        }
+        
+        byte b1 = ( byte) ( nDcRecalcPeriod & 0xFF);
+        byte b2 = ( byte) ( ( nDcRecalcPeriod & 0xFF00) >> 8);
+        SendComandSetParam( ( byte ) SLG_ConstantsParams.SLG_PARAM_DC_RECALC_PERIOD, ( byte) b1, ( byte) b2);
+        theApp.m_bParamsChanged = true;
+    }//GEN-LAST:event_btnSetDcRecalcPeriodActionPerformed
 
 
     private class PortReader implements SerialPortEventListener {
@@ -2371,16 +2623,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SetCalcedDcAsStartValue;
+    private javax.swing.JButton btnCalcDcReset;
+    private javax.swing.JButton btnCalcDcStart;
     public javax.swing.JButton btnConnect;
-    private javax.swing.JButton btnDecCoeffRecalcCalib;
-    private javax.swing.JButton btnDecCoeffRecalcCalib1;
+    private javax.swing.JButton btnDcStartSetDcStart;
+    private javax.swing.JButton btnDcStartSetTable;
+    private javax.swing.JButton btnDecCoeffRecalcCalibApprox;
+    private javax.swing.JButton btnDecCoeffRecalcCalibHard;
     private javax.swing.JButton btnDecCoeffRecalcManual;
     private javax.swing.JButton btnDecCoeffRecalcRecalc;
-    private javax.swing.JButton btnDecCoeffRecalcRecalc1;
-    private javax.swing.JButton btnDecCoeffRecalcRecalc2;
-    private javax.swing.JButton btnDecCoeffRecalcRecalc3;
-    private javax.swing.JButton btnDecCoeffRecalcRecalc4;
-    private javax.swing.JButton btnDecCoeffRecalcRecalc5;
+    private javax.swing.JButton btnDecCoeffRecalсSave;
     public javax.swing.JButton btnDisconnect;
     public javax.swing.JButton btnPS10Get;
     public javax.swing.JButton btnPS10Set;
@@ -2406,30 +2659,48 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     public javax.swing.JButton btnPS9Set;
     private javax.swing.JButton btnResetCalibData;
     private javax.swing.JButton btnSaveData;
+    private javax.swing.JButton btnSaveDcStartDefAndValue;
+    public javax.swing.JButton btnSetDcRecalcPeriod;
+    public javax.swing.JButton btnSetDcStartValue;
+    private javax.swing.JButton btnSwitchCurrentOutputParam;
+    private javax.swing.JButton btnT1;
+    private javax.swing.JButton btnT10;
     public javax.swing.JButton btnT10Get;
     public javax.swing.JButton btnT10Set;
+    private javax.swing.JButton btnT11;
     public javax.swing.JButton btnT11Get;
     public javax.swing.JButton btnT11Set;
     public javax.swing.JButton btnT1Get;
     public javax.swing.JButton btnT1Set;
-    public javax.swing.JButton btnT1Set1;
+    private javax.swing.JButton btnT2;
     public javax.swing.JButton btnT2Get;
     public javax.swing.JButton btnT2Set;
+    private javax.swing.JButton btnT3;
     public javax.swing.JButton btnT3Get;
     public javax.swing.JButton btnT3Set;
+    private javax.swing.JButton btnT4;
     public javax.swing.JButton btnT4Get;
     public javax.swing.JButton btnT4Set;
+    private javax.swing.JButton btnT5;
     public javax.swing.JButton btnT5Get;
     public javax.swing.JButton btnT5Set;
+    private javax.swing.JButton btnT6;
     public javax.swing.JButton btnT6Get;
     public javax.swing.JButton btnT6Set;
+    private javax.swing.JButton btnT7;
     public javax.swing.JButton btnT7Get;
     public javax.swing.JButton btnT7Set;
+    private javax.swing.JButton btnT8;
     public javax.swing.JButton btnT8Get;
     public javax.swing.JButton btnT8Set;
+    private javax.swing.JButton btnT9;
     public javax.swing.JButton btnT9Get;
     public javax.swing.JButton btnT9Set;
     private javax.swing.JTextField edtComPortValue;
+    private javax.swing.JTextField edtDcRecalcPeriodCurrent;
+    private javax.swing.JTextField edtDcRecalcPeriodSet;
+    private javax.swing.JTextField edtDcStartCurrentValue;
+    private javax.swing.JTextField edtDcStartSetValue;
     private javax.swing.JTextField edtPS10Edit;
     private javax.swing.JTextField edtPS10Show;
     private javax.swing.JTextField edtPS11Edit;
@@ -2457,9 +2728,7 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField edtT11Edit;
     private javax.swing.JTextField edtT11Show;
     private javax.swing.JTextField edtT1Edit;
-    private javax.swing.JTextField edtT1Edit1;
     private javax.swing.JTextField edtT1Show;
-    private javax.swing.JTextField edtT1Show1;
     private javax.swing.JTextField edtT2Edit;
     private javax.swing.JTextField edtT2Show;
     private javax.swing.JTextField edtT3Edit;
@@ -2476,42 +2745,27 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField edtT8Show;
     private javax.swing.JTextField edtT9Edit;
     private javax.swing.JTextField edtT9Show;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton10;
-    private javax.swing.JButton jButton11;
-    private javax.swing.JButton jButton12;
-    private javax.swing.JButton jButton13;
-    private javax.swing.JButton jButton14;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
-    private javax.swing.JButton jButton9;
-    private javax.swing.JComboBox jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblConnectionStateTitle;
     private javax.swing.JLabel lblConnectionStateValue;
     private javax.swing.JLabel lblConnectionStateValue1;
-    private javax.swing.JLabel lblCurrentPhaseShiftTitle;
-    private javax.swing.JLabel lblCurrentPhaseShiftValue;
+    private javax.swing.JLabel lblCurrentDecCoeffTitle;
+    private javax.swing.JLabel lblCurrentDecCoeffValue;
     private javax.swing.JLabel lblCurrentTD1Title;
     private javax.swing.JLabel lblCurrentTD1Value;
+    private javax.swing.JLabel lblCurrentoutputParam;
+    private javax.swing.JLabel lblDcStartDcStart;
+    private javax.swing.JLabel lblDcStartTable;
+    private javax.swing.JLabel lblDecCoeffRecalcPeriodValuePrefix;
+    private javax.swing.JLabel lblDecCoeffRecalcTitle;
+    private javax.swing.JLabel lblDecCoeffRecalcUnits;
     private javax.swing.JLabel lblPhaseShift;
     private javax.swing.JLabel lblPort;
+    private javax.swing.JLabel lblSignDecCoeffRecalcCalibApprox;
+    private javax.swing.JLabel lblSignDecCoeffRecalcCalibHard;
+    private javax.swing.JLabel lblSignDecCoeffRecalcManual;
+    private javax.swing.JLabel lblSignDecCoeffRecalcRecalc;
     private javax.swing.JLabel lblTemperature;
+    private javax.swing.JPanel pnlCalcDc;
     private javax.swing.JPanel pnlCalibrationTable;
     private javax.swing.JPanel pnlCurrentParams;
     private javax.swing.JPanel pnlInProcess;

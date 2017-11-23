@@ -100,7 +100,14 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
             else
                 theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_SYNC;
             
+            //ANALYZE DEVICE MAIN PARAM OUTPUT
+            if( ( bts[10] & 0x10) > 0)
+                theApp.m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DNDU;
+            else
+                theApp.m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DPHI;
+            
             //ANALYZE ADD.PARAM DESCRIPTOR
+            int nB5, nB6, nRes;
             switch( bts[4]) {
                 case SLG_ConstantsParams.SLG_PARAM_VERSION:
                     logger.info(    String.format( "<< SLG_PARAM_VERSION: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
@@ -226,27 +233,85 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                                 " " + theApp.m_nParamDcDefined[9] +
                                 " " + theApp.m_nParamDcDefined[10]);
                     */
-                break;
-                        
-                case SLG_ConstantsParams.SLG_PARAM_DC_CALIB_USAGE:
-                    logger.info(    String.format( "<< SLG_PARAM_DC_CALIB_USAGE: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                break;                                       
+
+                //075  Стартовый коэффициент вычета
+                case SLG_ConstantsParams.SLG_PARAM_DC_START:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_START: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
                                         bts[4],
                                         bts[5],  bts[6],
                                         bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
                     
-                         if( bts[5] == 0x00) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_CALIB;
-                    else if( bts[5] == 0x01) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_MANUAL;
-                    else if( bts[5] == 0x02) theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_RECALC;
-                    else                     theApp.m_nDecCoeffCalibrationUsage = SLG_DCST_App.DEC_COEFF_CALIBRATION_USAGE_OFF;
+                    nB6 = bts[6] & 0xFF;
+                    nB5 = bts[5] & 0xFF;
+                    theApp.m_nDecCoeffStart = ( nB6 << 8) + nB5;
+                    if( theApp.m_nDecCoeffStart == 65535) theApp.m_nDecCoeffStart--;
                 break;
                     
-                case SLG_ConstantsParams.SLG_PARAM_DEC_COEFF:
+                case SLG_ConstantsParams.SLG_PARAM_DC_RECALC:
+                    //076  Флаг как переопределять коэффициент вычета в процессе работы
+                    //      0=перевычислять (как раньше)
+                    //      1=калибровка ступенчатая
+                    //      2=калибровка сглаженная
+                    //      3=ручной режим
+                    logger.info(    String.format( "<< SLG_PARAM_DC_RECALC: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                                        bts[0],  bts[1],  bts[2],  bts[3],
+                                        bts[4],
+                                        bts[5],  bts[6],
+                                        bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
+                    
+                    nB5 = bts[5] & 0xFF;
+                    switch( nB5) {
+                        case 0: theApp.m_nDecCoeffRecalc = SLG_DCST_App.DEC_COEFF_RECALC_RECALC; break;
+                        case 1: theApp.m_nDecCoeffRecalc = SLG_DCST_App.DEC_COEFF_RECALC_CALIB_HARD; break;
+                        case 2: theApp.m_nDecCoeffRecalc = SLG_DCST_App.DEC_COEFF_RECALC_CALIB_APPROX; break;
+                        default: theApp.m_nDecCoeffRecalc = SLG_DCST_App.DEC_COEFF_RECALC_MANUAL; break;
+                    }    
+                            
+                break;
+
+                //077  Период переопределения Квычета (в секундах)
+                case SLG_ConstantsParams.SLG_PARAM_DC_RECALC_PERIOD:
+                    logger.info(    String.format( "<< SLG_PARAM_DC_RECALC_PERIOD: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                                        bts[0],  bts[1],  bts[2],  bts[3],
+                                        bts[4],
+                                        bts[5],  bts[6],
+                                        bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
+                    
+                    nB6 = bts[6] & 0xFF;
+                    nB5 = bts[5] & 0xFF;
+                    theApp.m_nDecCoeffRecalcPeriod = ( nB6 << 8) + nB5;
+                    if( theApp.m_nDecCoeffRecalcPeriod > 600) theApp.m_nDecCoeffRecalcPeriod = 600;
+                break;
+
+                
+                case SLG_ConstantsParams.SLG_PARAM_DC_START_DEF:
+                    //066  Настройки использования коэффициента вычета. Что брать при старте:
+                    //      0x00    = DC_START
+                    //      REST    = таблица калибровки)
+                    logger.info(    String.format( "<< SLG_PARAM_DC_START_DEF: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
+                                        bts[0],  bts[1],  bts[2],  bts[3],
+                                        bts[4],
+                                        bts[5],  bts[6],
+                                        bts[7],  bts[8],  bts[9],  bts[10], bts[11]));
+                    
+                    nB5 = bts[5] & 0xFF;
+                    if( nB5 == 1)
+                        theApp.m_nDecCoeffStartDef = SLG_DCST_App.DEC_COEFF_STARTDEF_CALIB;
+                    else
+                        theApp.m_nDecCoeffStartDef = SLG_DCST_App.DEC_COEFF_STARTDEF_DCSTART;
+                break;
+                    
+                case SLG_ConstantsParams.SLG_PARAM_DEC_COEFF:  //ТЕКУЩИЙ
                     logger.info(    String.format( "<< SLG_PARAM_DEC_COEFF: %02X %02X %02X %02X   %02X   %02X %02X   %02X %02X   %02X   %02X   %02X",
                                         bts[0],  bts[1],  bts[2],  bts[3],
                                         bts[4],  bts[5],  bts[6],  bts[7],
                                         bts[8],  bts[9],  bts[10], bts[11]));
-                    theApp.m_nCurrentDecCoeff = bts[5] & 0xFF + bts[6] & 0xFF00;
+                    nB6 = bts[6] & 0xFF;
+                    nB5 = bts[5] & 0xFF;
+                    theApp.m_nDecCoeffCurrent = ( nB6 << 8) + nB5;
+                    if( theApp.m_nDecCoeffCurrent == 65535) theApp.m_nDecCoeffCurrent--;
                 break;
                     
                 case SLG_ConstantsParams.SLG_PARAM_UTD1:
@@ -255,9 +320,9 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                     //                    bts[4],  bts[5],  bts[6],  bts[7],
                     //                    bts[8],  bts[9],  bts[10], bts[11]));
                     
-                    int nB6 = bts[6] & 0xFF;
-                    int nB5 = bts[5] & 0xFF;
-                    int nRes = ( nB6 << 8) + nB5;
+                    nB6 = bts[6] & 0xFF;
+                    nB5 = bts[5] & 0xFF;
+                    nRes = ( nB6 << 8) + nB5;
                     theApp.m_dblTD1 =  ( ( double) nRes) / 65535. * 200. - 100.;
                 break;
             }

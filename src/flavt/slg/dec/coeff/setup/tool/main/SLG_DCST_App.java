@@ -6,6 +6,7 @@
 package flavt.slg.dec.coeff.setup.tool.main;
 
 import flavt.slg.dec.coeff.setup.tool.communication.SLG_DCST_CircleBuffer;
+import flavt.slg.lib.constants.SLG_Constants;
 import java.io.File;
 import java.net.ServerSocket;
 import javax.swing.JOptionPane;
@@ -41,18 +42,25 @@ public class SLG_DCST_App {
     public int m_nDevDc[];
     
     public String m_strVersion;
-            
-    public int m_nDecCoeffCalibrationUsage;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_CALIB = 0;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_MANUAL = 1;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_RECALC = 2;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_UNKNOWN = 3;
-    public static final int DEC_COEFF_CALIBRATION_USAGE_OFF = 255;
+    public int m_nMainParamOutput;
     
-    public static final int SLG_REGIME_UNKNOWN = 3;
-    public int m_nDeviceRegime = SLG_REGIME_UNKNOWN;
+    public static final int DEC_COEFF_STARTDEF_DCSTART = 0;
+    public static final int DEC_COEFF_STARTDEF_CALIB = 1;
+    public static final int DEC_COEFF_STARTDEF_UNKNOWN = 2;
     
-    public int m_nCurrentDecCoeff;
+    public static final int DEC_COEFF_RECALC_RECALC = 0;
+    public static final int DEC_COEFF_RECALC_CALIB_HARD = 1;
+    public static final int DEC_COEFF_RECALC_CALIB_APPROX = 2;
+    public static final int DEC_COEFF_RECALC_MANUAL = 3;
+    public static final int DEC_COEFF_RECALC_UNKNOWN = 0xFF;
+    
+    public int m_nDeviceRegime = SLG_Constants.SLG_REGIME_UNKNOWN;
+    
+    public int m_nDecCoeffCurrent;
+    public int m_nDecCoeffStart;
+    public int m_nDecCoeffStartDef;
+    public int m_nDecCoeffRecalc;
+    public int m_nDecCoeffRecalcPeriod;
     
     public double m_dblTD1;
     
@@ -93,7 +101,14 @@ public class SLG_DCST_App {
         
         m_bConnected = false;
         m_strVersion = "";
-        m_nDecCoeffCalibrationUsage = DEC_COEFF_CALIBRATION_USAGE_UNKNOWN;
+        m_nDecCoeffRecalc = DEC_COEFF_RECALC_UNKNOWN;
+        m_nDecCoeffRecalcPeriod = 65535;
+        m_nDecCoeffStartDef = SLG_DCST_App.DEC_COEFF_STARTDEF_UNKNOWN;
+        m_nDecCoeffStart = 65535;
+        m_nDecCoeffCurrent = 65535;
+        m_dblTD1 = 0.;
+        m_nDeviceRegime = SLG_Constants.SLG_REGIME_UNKNOWN;
+        m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_UNKNOWN;
     }
     
     
