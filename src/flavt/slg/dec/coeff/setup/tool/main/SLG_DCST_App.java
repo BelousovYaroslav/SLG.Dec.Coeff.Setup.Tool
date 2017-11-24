@@ -71,6 +71,11 @@ public class SLG_DCST_App {
     public int m_nCheckSummFails;
     public int m_nPacksCounter;
     
+    public boolean m_bDcCalculation;
+    public int m_sh_dN, m_sh_dU;
+    public long m_lSumm_dN, m_lSumm_dU;
+    public long m_lDcCalcCounter;
+    
     public SLG_DCST_App() {
         m_strSLGrootEnvVar = System.getenv( "SLG_ROOT");
         
@@ -109,6 +114,11 @@ public class SLG_DCST_App {
         m_dblTD1 = 0.;
         m_nDeviceRegime = SLG_Constants.SLG_REGIME_UNKNOWN;
         m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_UNKNOWN;
+        
+        m_bDcCalculation = false;
+        m_lSumm_dN = 0;
+        m_lSumm_dU = 0;
+        m_lDcCalcCounter = 0;
     }
     
     

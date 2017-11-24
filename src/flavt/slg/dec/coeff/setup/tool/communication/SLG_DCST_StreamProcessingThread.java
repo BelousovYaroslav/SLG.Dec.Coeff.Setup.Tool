@@ -101,8 +101,16 @@ public class SLG_DCST_StreamProcessingThread implements Runnable {
                 theApp.m_nDeviceRegime = SLG_Constants.SLG_REGIME_SYNC;
             
             //ANALYZE DEVICE MAIN PARAM OUTPUT
-            if( ( bts[10] & 0x10) > 0)
+            if( ( bts[10] & 0x10) > 0) {
                 theApp.m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DNDU;
+                theApp.m_sh_dN = ( short) ( bts[ 1] * 256 + bts[ 0]);
+                theApp.m_sh_dU = ( short) ( bts[ 3] * 256 + bts[ 2]);
+                if( theApp.m_bDcCalculation) {
+                    theApp.m_lSumm_dN += Math.abs( theApp.m_sh_dN);
+                    theApp.m_lSumm_dU += Math.abs( theApp.m_sh_dU);
+                    theApp.m_lDcCalcCounter++;
+                }
+            }
             else
                 theApp.m_nMainParamOutput = SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DPHI;
             

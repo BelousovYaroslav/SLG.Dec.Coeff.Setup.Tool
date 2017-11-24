@@ -276,8 +276,9 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                 else
                     edtDcRecalcPeriodCurrent.setText( "x");
                 
-
+                //панель перевычисления dc
                 if( theApp.m_bConnected) {
+                    
                     switch( theApp.m_nMainParamOutput) {
                         case SLG_Constants.SLG_MAIN_PARAM_OUTPUT_DPHI:
                             lblCurrentoutputParam.setText( "Прибор выдаёт приращения угла");
@@ -290,11 +291,25 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
                         default:
                             lblCurrentoutputParam.setText( "Основной параметр выдаваемый прибором неопределён");
                     }
+                    
+                    lblDcCalc_N.setText(    String.format( "N=%05d", theApp.m_lDcCalcCounter));
+                    lblDcCalc_dN.setText(   String.format( "dN=%+05d", theApp.m_sh_dN));
+                    lblDcCalc_SdN.setText(  String.format( "ΣdN=%05d", theApp.m_lSumm_dN));
+                    lblDcCalc_dU.setText(   String.format( "dU=%+05d", theApp.m_sh_dU));
+                    lblDcCalc_SdU.setText(  String.format( "ΣdU=%05d", theApp.m_lSumm_dU));
+                    lblDcCalc_DC.setText(   String.format( "DC=%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
                 }
-                else
+                else {
                     lblCurrentoutputParam.setText( "Нет связи с прибором");
+                    lblDcCalc_N.setText( "");
+                    lblDcCalc_dN.setText( "");
+                    lblDcCalc_SdN.setText( "");
+                    lblDcCalc_dU.setText( "");
+                    lblDcCalc_SdU.setText( "");
+                    lblDcCalc_DC.setText( "");
+                }
+
                 
-                        
                 JTextField edtsT[] =  { edtT1Show, edtT2Show, edtT3Show, edtT4Show, edtT5Show,
                                         edtT6Show, edtT7Show, edtT8Show, edtT9Show, edtT10Show,
                                         edtT11Show };
@@ -514,7 +529,12 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         btnT9 = new javax.swing.JButton();
         btnT10 = new javax.swing.JButton();
         btnT11 = new javax.swing.JButton();
-        lblConnectionStateValue1 = new javax.swing.JLabel();
+        lblDcCalc_dN = new javax.swing.JLabel();
+        lblDcCalc_N = new javax.swing.JLabel();
+        lblDcCalc_dU = new javax.swing.JLabel();
+        lblDcCalc_SdU = new javax.swing.JLabel();
+        lblDcCalc_SdN = new javax.swing.JLabel();
+        lblDcCalc_DC = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("МЛГ3Б. Утилита для редактирования калибровки коэффициента вычета  (С) ФЛАВТ   2017.11.20 16:45");
@@ -1468,87 +1488,188 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         btnSwitchCurrentOutputParam.setBounds(420, 20, 140, 30);
 
         btnCalcDcStart.setText("Старт");
+        btnCalcDcStart.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcDcStartActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnCalcDcStart);
         btnCalcDcStart.setBounds(10, 60, 90, 30);
 
         SetCalcedDcAsStartValue.setText("Копировать в Квыч стартовый");
+        SetCalcedDcAsStartValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SetCalcedDcAsStartValueActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(SetCalcedDcAsStartValue);
         SetCalcedDcAsStartValue.setBounds(220, 60, 340, 30);
 
         btnCalcDcReset.setText("Сброс");
+        btnCalcDcReset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCalcDcResetActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnCalcDcReset);
         btnCalcDcReset.setBounds(110, 60, 90, 30);
 
         btnT1.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT1.setText("1");
         btnT1.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT1ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT1);
         btnT1.setBounds(220, 100, 40, 30);
 
         btnT2.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT2.setText("2");
         btnT2.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT2ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT2);
         btnT2.setBounds(250, 100, 40, 30);
 
         btnT3.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT3.setText("3");
         btnT3.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT3ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT3);
         btnT3.setBounds(280, 100, 40, 30);
 
         btnT4.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT4.setText("4");
         btnT4.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT4ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT4);
         btnT4.setBounds(310, 100, 40, 30);
 
         btnT5.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT5.setText("5");
         btnT5.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT5ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT5);
         btnT5.setBounds(340, 100, 40, 30);
 
         btnT6.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT6.setText("6");
         btnT6.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT6ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT6);
         btnT6.setBounds(370, 100, 40, 30);
 
         btnT7.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT7.setText("7");
         btnT7.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT7ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT7);
         btnT7.setBounds(400, 100, 40, 30);
 
         btnT8.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT8.setText("8");
         btnT8.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT8ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT8);
         btnT8.setBounds(430, 100, 40, 30);
 
         btnT9.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT9.setText("9");
         btnT9.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT9ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT9);
         btnT9.setBounds(460, 100, 40, 30);
 
         btnT10.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT10.setText("10");
         btnT10.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT10ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT10);
         btnT10.setBounds(490, 100, 40, 30);
 
         btnT11.setFont(new java.awt.Font("Dialog", 0, 10)); // NOI18N
         btnT11.setText("11");
         btnT11.setMargin(new java.awt.Insets(0, 0, 0, 0));
+        btnT11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnT11ActionPerformed(evt);
+            }
+        });
         pnlCalcDc.add(btnT11);
         btnT11.setBounds(520, 100, 40, 30);
 
-        lblConnectionStateValue1.setText("jLabel2");
-        lblConnectionStateValue1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        pnlCalcDc.add(lblConnectionStateValue1);
-        lblConnectionStateValue1.setBounds(10, 140, 550, 30);
+        lblDcCalc_dN.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_dN.setText("dN");
+        lblDcCalc_dN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_dN);
+        lblDcCalc_dN.setBounds(80, 140, 70, 30);
+
+        lblDcCalc_N.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_N.setText("N");
+        lblDcCalc_N.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_N);
+        lblDcCalc_N.setBounds(10, 140, 70, 30);
+
+        lblDcCalc_dU.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_dU.setText("dU");
+        lblDcCalc_dU.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_dU);
+        lblDcCalc_dU.setBounds(260, 140, 70, 30);
+
+        lblDcCalc_SdU.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_SdU.setText("SdU");
+        lblDcCalc_SdU.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_SdU);
+        lblDcCalc_SdU.setBounds(330, 140, 110, 30);
+
+        lblDcCalc_SdN.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_SdN.setText("SdN");
+        lblDcCalc_SdN.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_SdN);
+        lblDcCalc_SdN.setBounds(150, 140, 110, 30);
+
+        lblDcCalc_DC.setFont(new java.awt.Font("Dialog", 1, 10)); // NOI18N
+        lblDcCalc_DC.setText("DC");
+        lblDcCalc_DC.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(220, 220, 220)));
+        pnlCalcDc.add(lblDcCalc_DC);
+        lblDcCalc_DC.setBounds(440, 140, 120, 30);
 
         getContentPane().add(pnlCalcDc);
         pnlCalcDc.setBounds(10, 510, 570, 180);
@@ -2595,6 +2716,72 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
         theApp.m_bParamsChanged = true;
     }//GEN-LAST:event_btnSetDcRecalcPeriodActionPerformed
 
+    private void SetCalcedDcAsStartValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SetCalcedDcAsStartValueActionPerformed
+        String dc = String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU);
+        edtDcStartSetValue.setText( dc);
+    }//GEN-LAST:event_SetCalcedDcAsStartValueActionPerformed
+
+    private void btnCalcDcStartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcDcStartActionPerformed
+        if( theApp.m_bDcCalculation) {
+            theApp.m_bDcCalculation = false;
+            btnCalcDcStart.setText( "Старт");
+        }
+        else {
+            theApp.m_bDcCalculation = true;
+            btnCalcDcStart.setText( "Стоп");
+        }
+    }//GEN-LAST:event_btnCalcDcStartActionPerformed
+
+    private void btnCalcDcResetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCalcDcResetActionPerformed
+        theApp.m_lSumm_dN = 0;
+        theApp.m_lSumm_dU = 0;
+        theApp.m_lDcCalcCounter = 0;
+    }//GEN-LAST:event_btnCalcDcResetActionPerformed
+
+    private void btnT1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT1ActionPerformed
+        edtPS1Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT1ActionPerformed
+
+    private void btnT2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT2ActionPerformed
+        edtPS2Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT2ActionPerformed
+
+    private void btnT3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT3ActionPerformed
+        edtPS3Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT3ActionPerformed
+
+    private void btnT4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT4ActionPerformed
+        edtPS4Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT4ActionPerformed
+
+    private void btnT5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT5ActionPerformed
+        edtPS5Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT5ActionPerformed
+
+    private void btnT6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT6ActionPerformed
+        edtPS6Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT6ActionPerformed
+
+    private void btnT7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT7ActionPerformed
+        edtPS7Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT7ActionPerformed
+
+    private void btnT8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT8ActionPerformed
+        edtPS8Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT8ActionPerformed
+
+    private void btnT9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT9ActionPerformed
+        edtPS9Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT9ActionPerformed
+
+    private void btnT10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT10ActionPerformed
+        edtPS10Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT10ActionPerformed
+
+    private void btnT11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnT11ActionPerformed
+        edtPS11Edit.setText( String.format( "%.06f", ( double) theApp.m_lSumm_dN / ( double) theApp.m_lSumm_dU));
+    }//GEN-LAST:event_btnT11ActionPerformed
+
 
     private class PortReader implements SerialPortEventListener {
 
@@ -2747,12 +2934,17 @@ public class SLG_DCST_MainFrame extends javax.swing.JFrame {
     private javax.swing.JTextField edtT9Show;
     private javax.swing.JLabel lblConnectionStateTitle;
     private javax.swing.JLabel lblConnectionStateValue;
-    private javax.swing.JLabel lblConnectionStateValue1;
     private javax.swing.JLabel lblCurrentDecCoeffTitle;
     private javax.swing.JLabel lblCurrentDecCoeffValue;
     private javax.swing.JLabel lblCurrentTD1Title;
     private javax.swing.JLabel lblCurrentTD1Value;
     private javax.swing.JLabel lblCurrentoutputParam;
+    private javax.swing.JLabel lblDcCalc_DC;
+    private javax.swing.JLabel lblDcCalc_N;
+    private javax.swing.JLabel lblDcCalc_SdN;
+    private javax.swing.JLabel lblDcCalc_SdU;
+    private javax.swing.JLabel lblDcCalc_dN;
+    private javax.swing.JLabel lblDcCalc_dU;
     private javax.swing.JLabel lblDcStartDcStart;
     private javax.swing.JLabel lblDcStartTable;
     private javax.swing.JLabel lblDecCoeffRecalcPeriodValuePrefix;
